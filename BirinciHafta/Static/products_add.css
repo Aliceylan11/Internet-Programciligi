@@ -1,0 +1,102 @@
+:root {
+  --primary-color: #4e73df;
+  --secondary-color: #858796;
+  --success-color: #1cc88a;
+  --light-bg: #f8f9fc;
+  --card-border: #e3e6f0;
+}
+
+body {
+  background-color: var(--light-bg);
+  font-family: 'Nunito', sans-serif;
+}
+/* Form Container */
+.form-container {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+  padding: 2rem;
+  margin-top: 2rem;
+  border-top: 0.25rem solid var(--primary-color);
+}
+
+/* Form Başlık */
+.form-header {
+  border-bottom: 1px solid var(--card-border);
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Input Stilleri */
+.form-control, .form-select {
+  border-radius: 0.35rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--card-border);
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
+}
+
+/* Dosya Yükleme Alanı */
+.file-upload {
+  border: 2px dashed var(--card-border);
+  border-radius: 0.5rem;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.file-upload:hover {
+  border-color: var(--primary-color);
+  background-color: rgba(78, 115, 223, 0.05);
+}
+
+/* Butonlar */
+.btn-primary {
+  background-color: var(--primary-color);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background-color: #3a5bc7;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  background-color: transparent;
+  padding: 0;
+  font-size: 0.9rem;
+}
+
+/* Başarı Mesajı */
+.alert-success-custom {
+  background-color: rgba(28, 200, 138, 0.2);
+  border-left: 4px solid var(--success-color);
+  border-radius: 0;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  min-width: 300px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 0.5s ease;
+  z-index: 9999;
+}
+
+.alert-success-custom.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .form-container {
+    padding: 1.5rem;
+  }
+}

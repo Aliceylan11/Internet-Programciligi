@@ -1,0 +1,74 @@
+:root {
+  --primary-color: #4e73df;
+  --danger-color: #e74a3b;
+  --light-bg: #f8f9fc;
+  --card-border: #e3e6f0;
+}
+
+body {
+  background-color: var(--light-bg);
+  font-family: 'Nunito', sans-serif;
+}
+
+
+/* Ürün Listesi Container */
+.list-container {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+  padding: 2rem;
+  margin-top: 2rem;
+  border-left: 0.25rem solid var(--danger-color);
+}
+
+/* Tablo Stilleri */
+.table-responsive {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.table thead {
+  background-color: var(--light-bg);
+}
+
+.table th {
+  border-bottom-width: 2px;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+}
+
+/* Sil Butonu */
+.btn-danger {
+  background-color: var(--danger-color);
+  border: none;
+}
+
+.btn-danger:hover {
+  background-color: #c5301f;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  background-color: transparent;
+  padding: 0;
+  font-size: 0.9rem;
+}
+
+/* Onay Modalı */
+.modal-danger .modal-header {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .list-container {
+    padding: 1.5rem;
+  }
+  
+  .table-responsive {
+    border: 1px solid var(--card-border);
+  }
+}

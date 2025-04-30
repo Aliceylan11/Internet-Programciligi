@@ -1,0 +1,82 @@
+:root {
+  --primary-color: #4e73df;
+  --danger-color: #e74a3b;
+  --success-color: #1cc88a;
+  --light-bg: #f8f9fc;
+  --card-border: #e3e6f0;
+}
+
+body {
+  background-color: var(--light-bg);
+  font-family: 'Nunito', sans-serif;
+}
+
+/* Ürün Kartı */
+.product-card {
+  border: 1px solid var(--card-border);
+  border-radius: 0.35rem;
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1.5rem 0 rgba(58, 59, 69, 0.2);
+}
+
+/* Ürün Resmi */
+.product-img {
+  height: 140px;
+  object-fit: contain;
+  padding: 1rem;
+  background: var(--light-bg);
+  border-radius: 0.25rem;
+  margin: 0 auto;
+  display: block;
+}
+
+/* Butonlar */
+.btn-add {
+  background-color: var(--primary-color);
+  border: none;
+}
+
+.btn-delete {
+  background-color: var(--danger-color);
+  border: none;
+  color: white;
+}
+
+.btn-update {
+  background-color: var(--success-color);
+  border: none;
+  color: white;
+}
+
+.btn-add:hover {
+  background-color: #3a65c6;
+}
+
+.btn-delete:hover {
+  background-color: #dc4630;
+}
+
+.btn-update:hover {
+  background-color: #16a078;
+}
+
+/* İstatistik Kartı */
+.stats-card {
+  border-left: 0.25rem solid var(--primary-color);
+  border-radius: 0.35rem;
+}
+
+/* Filtre Bölümü */
+.filter-section {
+  background: white;
+  border-radius: 0.35rem;
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}

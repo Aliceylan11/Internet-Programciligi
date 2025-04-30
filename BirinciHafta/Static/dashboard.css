@@ -1,0 +1,85 @@
+body {
+  padding-top: 56px;
+  background-color: #f8f9fa;
+}
+
+.sidebar {
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  width: 250px;
+  background-color: #343a40;
+  padding-top: 20px;
+  color: white;
+  transition: all 0.3s;
+}
+
+.sidebar a {
+  color: rgba(255, 255, 255, 0.8);
+  padding: 10px 15px;
+  text-decoration: none;
+  display: block;
+  transition: all 0.2s;
+  border-radius: 4px;
+  margin: 2px 10px;
+}
+
+.sidebar a:hover {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar .active {
+  color: white;
+  background-color: #0d6efd;
+}
+
+.main-content {
+  margin-left: 250px;
+  padding: 20px;
+  transition: all 0.3s;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 0;
+    overflow: hidden;
+  }
+  
+  .sidebar.show {
+    width: 250px;
+  }
+  
+  .main-content {
+    margin-left: 0;
+  }
+}
+
+/* Ek stil: Panel kart başlıklarına ve liste öğelerine renk verelim */
+.card-header.bg-primary {
+  background-color: #007bff !important;
+}
+
+.card-header.bg-danger {
+  background-color: #dc3545 !important;
+}
+
+#criticalStockList li {
+  background-color: #fcebea;
+  color: #cc1f1a;
+  border: 1px solid #f1a9a0;
+  margin-bottom: 5px;
+  transition: background-color 0.2s;
+}
+
+#criticalStockList li:hover {
+  background-color: #f8d7da;
+  cursor: pointer;
+}
+
+/* Ürün özet kartları için hafif gölge ve yuvarlatılmış köşe */
+#productSummary .card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 8px;
+}
