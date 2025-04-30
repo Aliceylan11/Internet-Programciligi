@@ -1,0 +1,324 @@
+{% extends "base.html" %}
+  
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='register.css') }}?v=1.0">
+<div class="register-container">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="register-card">
+          <div class="register-header">
+            <h2><i class="fas fa-user-plus me-2"></i>Hesap Oluştur</h2>
+            <p class="mb-0">
+              Stok takip sistemine erişmek için hesabınızı oluşturun
+            </p>
+          </div>
+          <div class="register-body">
+            <form>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="firstName" class="form-label">Adınız</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="firstName"
+                    placeholder="Adınız"
+                    required
+                  />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="lastName" class="form-label">Soyadınız</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="lastName"
+                    placeholder="Soyadınız"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="email" class="form-label">E-posta Adresi</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  placeholder="email@example.com"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="company" class="form-label"
+                  >Şirket Adı (Opsiyonel)</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="company"
+                  placeholder="Şirket adınız"
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="phone" class="form-label"
+                  >Telefon Numarası</label
+                >
+                <div class="input-group">
+                  <span class="input-group-text"
+                    ><i class="fas fa-phone"></i
+                  ></span>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    id="phone"
+                    placeholder="5__ ___ __ __"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="password" class="form-label">Şifre</label>
+                  <div class="input-group">
+                    <span class="input-group-text"
+                      ><i class="fas fa-lock"></i
+                    ></span>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="password"
+                      placeholder="Şifreniz"
+                      required
+                    />
+                    <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      id="showPassword"
+                    >
+                      <i class="fas fa-eye"></i>
+                    </button>
+                  </div>
+                  <div class="form-text">
+                    En az 8 karakter, bir büyük harf ve bir sayı içermeli
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="confirmPassword" class="form-label"
+                    >Şifre Tekrar</label
+                  >
+                  <div class="input-group">
+                    <span class="input-group-text"
+                      ><i class="fas fa-lock"></i
+                    ></span>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="confirmPassword"
+                      placeholder="Şifrenizi tekrar girin"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3 form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="terms"
+                  required
+                />
+                <label class="form-check-label" for="terms">
+                  <a
+                    href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#termsModal"
+                    >Kullanım Koşulları</a
+                  >
+                  ve
+                  <a
+                    href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#privacyModal"
+                    >Gizlilik Politikasını</a
+                  >okudum ve kabul ediyorum
+                </label>
+              </div>
+
+              <div class="d-grid gap-2"><a href="{{ url_for('login') }}" style="text-decoration: none; color: white;">
+                <button type="submit" class="btn btn-register">
+                  <i class="fas fa-user-plus me-2"></i>Kayıt Ol
+                </button></a>
+              </div>
+
+              <div class="text-center mt-3">
+                <p>
+                  Zaten hesabınız var mı?
+                  <a href="{{ url_for('login') }}" class="login-link">Giriş Yapın</a>
+                </p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Kullanım Koşulları Modal -->
+<div
+  class="modal fade"
+  id="termsModal"
+  tabindex="-1"
+  aria-labelledby="termsModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="termsModalLabel">Kullanım Koşulları</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <h6>1. Genel Hükümler</h6>
+        <p>
+          Bu Stok Takip Uygulaması ("Uygulama"), kullanıcıların depo ve
+          envanter yönetimi ihtiyaçlarını karşılamak üzere tasarlanmıştır.
+          Uygulamayı kullanarak bu koşulları kabul etmiş sayılırsınız.
+        </p>
+
+        <h6>2. Hesap Sorumluluğu</h6>
+        <p>
+          Hesabınızın güvenliğinden ve şifrenizin gizliliğinden siz
+          sorumlusunuz. Hesabınız üzerinden yapılan tüm işlemlerden siz
+          sorumlu olacaksınız.
+        </p>
+
+        <h6>3. Hizmet Kullanımı</h6>
+        <p>
+          Uygulama yalnızca yasal amaçlarla kullanılabilir. Üçüncü
+          şahısların haklarını ihlal edecek şekilde uygulamayı
+          kullanamazsınız.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+          Kapat
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Gizlilik Politikası Modal -->
+<div
+  class="modal fade"
+  id="privacyModal"
+  tabindex="-1"
+  aria-labelledby="privacyModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="privacyModalLabel">
+          Gizlilik Politikası
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <h6>1. Giriş</h6>
+        <p>
+          Bu Gizlilik Politikası, Stok Takip Uygulaması ("Uygulama")
+          tarafından toplanan, kullanılan ve korunacak kişisel bilgilerle
+          ilgili uygulamanın işleyişini ve veri güvenliğini açıklamaktadır.
+        </p>
+
+        <h6>2. Toplanan Bilgiler</h6>
+        <p>
+          Uygulama, kullanıcıların ad, soyad, TC, e-posta, şifre ve diğer
+          ilgili kişisel bilgilerini sağlayabilmelerini ve ayrıca kullanım
+          sırasında otomatik olarak bazı verilerin (örneğin, IP adresi,
+          tarayıcı bilgileri) toplanmasını sağlar.
+        </p>
+
+        <h6>3. Bilgi Kullanımı</h6>
+        <p>
+          Toplanan bilgiler; hizmet sunumu, kullanıcı doğrulaması, iletişim,
+          analiz ve hizmet geliştirme amaçlarıyla kullanılmaktadır.
+          Bilgileriniz, yasal zorunluluklar dışında üçüncü kişilerle
+          paylaşılmaz.
+        </p>
+
+        <h6>4. Bilgi Güvenliği</h6>
+        <p>
+          Kişisel bilgilerinizin güvenliği için uygun teknik ve idari
+          önlemler alınmaktadır. Ancak, internet üzerinden iletilen
+          bilgilerin güvenliği kesin olarak garanti edilemez.
+        </p>
+
+        <h6>5. Kullanıcı Hakları</h6>
+        <p>
+          Kullanıcılar, kişisel verilerine erişim, düzeltme veya silme
+          taleplerinde bulunabilir. Taleplerinizi gerçekleştirmek için
+          <a href="mailto:iletisim@gmail.com">iletisim@gmail.com</a>
+          adresiyle bizimle iletişime geçebilirsiniz.
+        </p>
+
+        <h6>6. Çerezler</h6>
+        <p>
+          Uygulama, kullanıcı deneyimini geliştirmek amacıyla çerezler ve
+          benzeri izleme teknolojilerini kullanabilir. Çerezler hakkında
+          detaylı bilgi, ilgili sayfamızda yer almaktadır.
+        </p>
+
+        <h6>7. Değişiklikler</h6>
+        <p>
+          Bu Gizlilik Politikası, yasal gereklilikler ya da hizmet
+          güncellemeleri doğrultusunda değiştirilebilir. Yapılan
+          değişiklikler, bu modalda yayınlandığı andan itibaren geçerli
+          olur.
+        </p>
+
+        <h6>8. İletişim</h6>
+        <p>
+          Gizlilik politikamızla ilgili her türlü soru veya talebiniz için
+          <a href="mailto:iletisim@gmail.com">iletisim@gmail.com</a>
+          adresinden bizimle iletişime geçebilirsiniz.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+          Kapat
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+{% endblock %}
+ 

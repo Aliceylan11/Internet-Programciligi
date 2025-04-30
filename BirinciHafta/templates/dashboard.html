@@ -1,0 +1,32 @@
+{% extends "dashboardbase.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+  <h2 class="mb-4">Panel</h2>
+  <div class="row">
+
+    <div class="col-md-8">
+      <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+          Ürün Özeti
+        </div>
+        <div class="card-body">
+          <div class="row" id="productSummary"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <div class="card-header bg-danger text-white">
+          Kritik Stok Bildirimleri
+        </div>
+        <div class="card-body">
+          <ul class="list-group" id="criticalStockList"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

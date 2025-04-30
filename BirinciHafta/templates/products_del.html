@@ -1,0 +1,189 @@
+{% extends "dashboardbase.html" %}
+  
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='products_del.css') }}?v=1.0">
+
+<div class="container-fluid">
+  <nav aria-label="breadcrumb" class="mt-5">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('dashboard') }}"><i class="fas fa-home"></i></a></li>
+      <li class="breadcrumb-item"><a href="{{ url_for('products') }}" style="text-decoration: none;">Ürünler</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Ürün Silme</li>
+    </ol>
+  </nav>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-12">
+      <div class="list-container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="fw-bold mb-0 text-danger"><i class="fas fa-trash-alt me-2"></i>Ürün Silme</h3>
+          <div class="input-group" style="max-width: 300px;">
+            <input type="text" class="form-control" placeholder="Ürün ara...">
+            <button class="btn btn-outline-secondary" type="button">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+        
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th width="50">ID</th>
+                <th>Ürün Adı</th>
+                <th>Kategori</th>
+                <th>Fiyat</th>
+                <th>Stok</th>
+                <th width="120">İşlemler</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>001</td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <img src="https://via.placeholder.com/50?text=Ürün1" class="rounded me-3" width="40" height="40">
+                    <span>Akıllı Saat Pro</span>
+                  </div>
+                </td>
+                <td>Elektronik</td>
+                <td>₺1,299.99</td>
+                <td><span class="badge bg-success">Stokta</span></td>
+                <td>
+                  <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-product-id="001">
+                    <i class="fas fa-trash"></i> Sil
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>002</td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <img src="https://via.placeholder.com/50?text=Ürün2" class="rounded me-3" width="40" height="40">
+                    <span>Kablosuz Kulaklık</span>
+                  </div>
+                </td>
+                <td>Elektronik</td>
+                <td>₺599.99</td>
+                <td><span class="badge bg-success">Stokta</span></td>
+                <td>
+                  <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-product-id="002">
+                    <i class="fas fa-trash"></i> Sil
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>003</td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <img src="https://via.placeholder.com/50?text=Ürün3" class="rounded me-3" width="40" height="40">
+                    <span>Pamuk Tişört</span>
+                  </div>
+                </td>
+                <td>Giyim</td>
+                <td>₺149.99</td>
+                <td><span class="badge bg-danger">Tükendi</span></td>
+                <td>
+                  <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-product-id="003">
+                    <i class="fas fa-trash"></i> Sil
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <nav aria-label="Page navigation" class="mt-4">
+          <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1">Önceki</a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#">Sonraki</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Silme Onay Modalı -->
+<div class="modal fade modal-danger" id="deleteModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i>Ürün Silme</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center py-4">
+        <i class="fas fa-trash-alt fa-4x text-danger mb-4"></i>
+        <h4 class="fw-bold mb-3">Emin misiniz?</h4>
+        <p class="mb-0">"<span id="productNameToDelete"></span>" adlı ürünü silmek üzeresiniz. Bu işlem geri alınamaz!</p>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">Vazgeç</button>
+        <button type="button" class="btn btn-danger px-4" id="confirmDelete">
+          <i class="fas fa-trash me-2"></i>Sil
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Başarı Mesajı -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="deleteToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">
+        <i class="fas fa-check-circle me-2"></i>
+        <strong>Ürün başarıyla silindi!</strong>
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Silme Modalını Açma
+  const deleteModal = document.getElementById('deleteModal');
+  if (deleteModal) {
+    deleteModal.addEventListener('show.bs.modal', function(event) {
+      const button = event.relatedTarget;
+      const productId = button.getAttribute('data-product-id');
+      const productName = button.closest('tr').querySelector('td:nth-child(2) span').textContent;
+      
+      document.getElementById('productNameToDelete').textContent = productName;
+      
+      // Silme butonuna productId'yi ata
+      document.getElementById('confirmDelete').setAttribute('data-product-id', productId);
+    });
+  }
+  
+  // Silme İşlemi
+  document.getElementById('confirmDelete').addEventListener('click', function() {
+    const productId = this.getAttribute('data-product-id');
+    
+    // Burada AJAX ile sunucuya silme isteği gönderilebilir
+    console.log('Silinen Ürün ID:', productId);
+    
+    // Modalı kapat
+    const modal = bootstrap.Modal.getInstance(deleteModal);
+    modal.hide();
+    
+    // Başarı toast'ını göster
+    const toast = new bootstrap.Toast(document.getElementById('deleteToast'));
+    toast.show();
+    
+    // 3 saniye sonra sayfayı yenile (gerçek uygulamada AJAX sonrası tabloyu güncelleyebilirsiniz)
+    setTimeout(() => {
+      location.reload();
+    }, 3000);
+  });
+</script>
+
+{% endblock %}

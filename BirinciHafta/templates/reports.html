@@ -1,0 +1,142 @@
+{% extends "dashboardbase.html" %}
+
+{% block content %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <div class="container-fluid">
+    <h2 class="mb-4"><i class="fas fa-chart-pie me-2"></i>Raporlar</h2>
+
+    <div class="card filter-section mb-4">
+      <div class="card-header bg-white">
+        <h5 class="mb-0"><i class="fas fa-filter me-2"></i>Rapor Filtreleri</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-3 mb-3">
+            <label class="form-label">Rapor Türü</label>
+            <select class="form-select">
+              <option selected>Satış Raporları</option>
+              <option>Stok Hareketleri</option>
+              <option>Kategori Bazlı</option>
+              <option>Özel Rapor</option>
+            </select>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label class="form-label">Başlangıç Tarihi</label>
+            <input type="date" class="form-control" value="2025-01-01">
+          </div>
+          <div class="col-md-3 mb-3">
+            <label class="form-label">Bitiş Tarihi</label>
+            <input type="date" class="form-control" value="2025-12-31">
+          </div>
+          <div class="col-md-3 mb-3 d-flex align-items-end">
+            <button class="btn btn-primary w-100">
+              <i class="fas fa-sync-alt me-2"></i>Raporu Oluştur
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-header">
+        <h5 class="mb-0"><i class="fas fa-table me-2"></i>Detaylı Stok Raporu</h5>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead class="table-light">
+              <tr>
+                <th>Ürün Kodu</th>
+                <th>Ürün Adı</th>
+                <th>Başlangıç Stok</th>
+                <th>Giriş Miktarı</th>
+                <th>Çıkış Miktarı</th>
+                <th>Mevcut Stok</th>
+                <th>Değişim (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>001</td>
+                <td>Akıllı Saat Pro</td>
+                <td>25</td>
+                <td class="text-success">+20</td>
+                <td class="text-danger">-12</td>
+                <td>33</td>
+                <td class="text-success">+32%</td>
+              </tr>
+              <tr>
+                <td>002</td>
+                <td>Kablosuz Kulaklık</td>
+                <td>18</td>
+                <td class="text-success">+15</td>
+                <td class="text-danger">-8</td>
+                <td>25</td>
+                <td class="text-success">+38.9%</td>
+              </tr>
+              <tr>
+                <td>003</td>
+                <td>Blender Seti</td>
+                <td>42</td>
+                <td class="text-success">+30</td>
+                <td class="text-danger">-28</td>
+                <td>44</td>
+                <td class="text-success">+4.8%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0"><i class="fas fa-file-download me-2"></i>İndirilebilir Raporlar</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <div class="card border-primary">
+              <div class="card-body text-center">
+                <i class="fas fa-file-excel fa-3x text-primary mb-3"></i>
+                <h5>Excel Raporu</h5>
+                <p class="text-muted">Tüm stok hareketlerini içerir</p>
+                <button class="btn btn-outline-primary">
+                  <i class="fas fa-download me-2"></i>İndir
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="card border-success">
+              <div class="card-body text-center">
+                <i class="fas fa-file-pdf fa-3x text-danger mb-3"></i>
+                <h5>PDF Raporu</h5>
+                <p class="text-muted">Özet rapor</p>
+                <button class="btn btn-outline-danger">
+                  <i class="fas fa-download me-2"></i>İndir
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="card border-info">
+              <div class="card-body text-center">
+                <i class="fas fa-file-csv fa-3x text-info mb-3"></i>
+                <h5>CSV Raporu</h5>
+                <p class="text-muted">Ham veri</p>
+                <button class="btn btn-outline-info">
+                  <i class="fas fa-download me-2"></i>İndir
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+{% endblock %}

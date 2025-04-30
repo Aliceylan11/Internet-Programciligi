@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section id="contact" class="py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">Bizimle İletişime Geçin</h2>
+      <p class="lead text-muted">
+        Stok Takip Uygulaması ile ilgili herhangi bir sorunuz varsa, bizimle
+        iletişime geçebilirsiniz.
+      </p>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <form>
+          <div class="mb-3">
+            <label for="name" class="form-label">Adınız</label>
+            <input type="text" class="form-control" id="name" required />
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">E-posta Adresiniz</label>
+            <input type="email" class="form-control" id="email" required />
+          </div>
+          <div class="mb-3">
+            <label for="message" class="form-label">Mesajınız</label>
+            <textarea
+              class="form-control"
+              id="message"
+              rows="4"
+              required
+            ></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Gönder</button>
+        </form>
+      </div>
+
+      <div class="col-md-6">
+        <h4 class="mb-3">İletişim Bilgileri</h4>
+        <ul class="list-unstyled">
+          <li><strong>Telefon:</strong> +90 545 914 84 99</li>
+          <li><strong>E-posta:</strong> info@stoktakip.com</li>
+          <li><strong>Adres:</strong> İstanbul, Türkiye</li>
+        </ul>
+
+        <!-- Google Maps Embed (Opsiyonel) -->
+        <h4 class="mb-3">Adresimiz</h4>
+        <div>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d4844.2674679704345!2d28.9910434!3d41.1033691!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab68279d16fe3%3A0x5f125583ee2cf022!2sAli+Sami+Yen+Spor+Kompleksi+RAMS+Park!5e0!3m2!1str!2str!4v1624068364743!5m2!1str!2str"
+            width="100%"
+            height="250"
+            style="border: 0"
+            allowfullscreen=""
+            loading="lazy"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,284 @@
+{% extends "dashboardbase.html" %}
+
+{% block content %}
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='products.css') }}?v=1.0">
+  <div class="container-fluid" style="margin-top: 70px;">
+    <div class="d-flex justify-content-end align-items-center mb-4">
+      <div class="action-buttons">
+        <a href="{{ url_for('products_add') }}" class="btn btn-primary">
+          <i class="fas fa-plus me-2"></i>Yeni Ürün Ekle
+        </a>
+        <a href="{{ url_for('products_del') }}" class="btn btn-danger">
+          <i class="fas fa-trash me-2"></i>Ürün Sil
+        </a>
+        <a href="{{ url_for('products_update') }}" class="btn btn-success">
+          <i class="fas fa-pen me-2"></i>Ürün Güncelle
+        </a>
+      </div>
+    </div>
+  </div>
+  
+      <div class="filter-section mb-4">
+        <h5 class="fw-bold mb-3"><i class="fas fa-filter me-2"></i>Filtreleme Seçenekleri</h5>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label class="form-label fw-bold">Arama</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-search"></i></span>
+              <input type="text" id="searchInput" class="form-control" placeholder="Ürün adı girin...">
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label class="form-label fw-bold">Kategori</label>
+            <select id="categoryFilter" class="form-select">
+              <option value="all">Tüm Kategoriler</option>
+              <option value="electronics">Elektronik</option>
+              <option value="clothing">Giyim</option>
+              <option value="home">Ev & Mutfak</option>
+              <option value="cosmetics">Kozmetik</option>
+              <option value="automotive">Otomotiv</option>
+              <option value="food">Yiyecek & İçecek</option>
+              <option value="pets">Evcil Hayvan</option>
+              <option value="books">Kitap & Kırtasiye</option>
+              <option value="sports">Spor & Outdoor</option>
+              <option value="health">Sağlık & Bakım</option>
+            </select>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label class="form-label fw-bold">Stok Durumu</label>
+            <select id="stockFilter" class="form-select">
+              <option value="all">Tümü</option>
+              <option value="in-stock">Stokta Var</option>
+              <option value="out-of-stock">Stokta Yok</option>
+            </select>
+          </div>
+          <div class="col-md-2 d-flex align-items-end mb-3">
+            <button id="resetFilters" class="btn btn-outline-secondary w-100">
+              <i class="fas fa-sync-alt me-2"></i>Sıfırla
+            </button>
+          </div>
+        </div>
+      </div>
+  
+      <div class="table-responsive mb-4">
+        <table class="table table-striped" id="productsTable">
+          <thead>
+            <tr>
+              <th>Resim</th>
+              <th>ID</th>
+              <th>Ad</th>
+              <th>Kategori</th>
+              <th>Marka</th>
+              <th>Fiyat</th>
+              <th>Adet</th>
+              <th>Stok Durumu</th>
+            </tr>
+          </thead>
+          <tbody id="productsTableBody">
+            <tr>
+              <td><img src="{{ url_for('static', filename='images/product1.jpg') }}" alt="Ürün 1" class="product-image"></td>
+              <td>001</td>
+              <td>Akıllı Saat Pro</td>
+              <td>Elektronik</td>
+              <td>Marka A</td>
+              <td>499.99 TL</td>
+              <td>25</td>
+              <td><span class="badge bg-success">Stokta Var</span></td>
+            </tr>
+            <tr>
+              <td><img src="{{ url_for('static', filename='images/product2.jpg') }}" alt="Ürün 2" class="product-image"></td>
+              <td>002</td>
+              <td>Kablosuz Kulaklık</td>
+              <td>Elektronik</td>
+              <td>Marka B</td>
+              <td>299.99 TL</td>
+              <td>0</td>
+              <td><span class="badge bg-danger">Stokta Yok</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Önceki</a>
+          </li>
+          <li class="page-item active"><a class="page-link" href="{{ url_for('products') }}">1</a></li>
+          <li class="page-item"><a class="page-link" href="{{ url_for('products') }}">2</a></li>
+          <li class="page-item"><a class="page-link" href="{{ url_for('products') }}">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="">Sonraki</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  
+    <!-- JavaScript Kısmı -->
+    <script>
+      // Üründeki örnek veriler (brand ve quantity ekledik)
+      const products = [
+        { 
+          id: 1, 
+          name: "Akıllı Saat Pro", 
+          category: "electronics", 
+          price: 1299.99, 
+          stock: "in-stock", 
+          image: "https://via.placeholder.com/150?text=Akıllı+Saat",
+          description: "Spor ve sağlık takibi için profesyonel akıllı saat",
+          brand: "Xiaomi",
+          quantity: 15
+        },
+        { 
+          id: 2, 
+          name: "Kablosuz Kulaklık", 
+          category: "electronics", 
+          price: 599.99, 
+          stock: "in-stock", 
+          image: "https://via.placeholder.com/150?text=Kulaklık",
+          description: "Yüksek ses kalitesi ve 20 saat pil ömrü",
+          brand: "Sony",
+          quantity: 20
+        },
+        { 
+          id: 3, 
+          name: "Pamuk Tişört", 
+          category: "clothing", 
+          price: 149.99, 
+          stock: "out-of-stock", 
+          image: "https://via.placeholder.com/150?text=Tişört",
+          description: "%100 pamuk rahat günlük tişört",
+          brand: "Nike",
+          quantity: 0
+        },
+        { 
+          id: 4, 
+          name: "Blender Seti", 
+          category: "home", 
+          price: 399.99, 
+          stock: "in-stock", 
+          image: "https://via.placeholder.com/150?text=Blender",
+          description: "1500W güçlü profesyonel blender",
+          brand: "Philips",
+          quantity: 12
+        },
+        { 
+          id: 5, 
+          name: "Deri Cüzdan", 
+          category: "clothing", 
+          price: 249.99, 
+          stock: "in-stock", 
+          image: "https://via.placeholder.com/150?text=Cüzdan",
+          description: "Gerçek deri el yapımı cüzdan",
+          brand: "Gucci",
+          quantity: 8
+        },
+        { 
+          id: 6, 
+          name: "Air Fryer", 
+          category: "home", 
+          price: 899.99, 
+          stock: "out-of-stock", 
+          image: "https://via.placeholder.com/150?text=Air+Fryer",
+          description: "Yağsız pişirme teknolojisi",
+          brand: "LG",
+          quantity: 0
+        },  { 
+          id: 7, 
+          name: "Mama", 
+          category: "pets", 
+          price: 99.99, 
+          stock: "out-of-stock", 
+          image: "https://via.placeholder.com/150?text=Air+Fryer",
+          description: "Yağsız mama",
+          brand: "Eti",
+          quantity: 10
+        }
+      ];
+  
+      // DOM Elemanları
+      const productsTableBody = document.getElementById('productsTableBody');
+      const searchInput = document.getElementById('searchInput');
+      const categoryFilter = document.getElementById('categoryFilter');
+      const stockFilter = document.getElementById('stockFilter');
+      const resetFilters = document.getElementById('resetFilters');
+  
+      // Sayfa yüklendiğinde ürünleri göster
+      document.addEventListener('DOMContentLoaded', () => {
+        renderProducts(products);
+      });
+  
+      // Filtreleme fonksiyonu
+      function filterProducts() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const category = categoryFilter.value;
+        const stockStatus = stockFilter.value;
+    
+        const filteredProducts = products.filter(product => {
+          const matchesSearch = product.name.toLowerCase().includes(searchTerm);
+          const matchesCategory = category === 'all' || product.category === category;
+          let matchesStock = false;
+          if (stockStatus === 'all') {
+            matchesStock = true;
+          } else if (stockStatus === 'in-stock') {
+            matchesStock = product.quantity > 0;
+          } else if (stockStatus === 'out-of-stock') {
+            matchesStock = product.quantity === 0;
+          }
+          return matchesSearch && matchesCategory && matchesStock;
+        });
+    
+        renderProducts(filteredProducts);
+      }
+  
+      // Ürünleri tabloya yükleme
+      function renderProducts(productsToRender) {
+        productsTableBody.innerHTML = '';
+  
+        if (productsToRender.length === 0) {
+          productsTableBody.innerHTML = `<tr><td colspan="8" class="text-center py-5">Ürün bulunamadı</td></tr>`;
+          return;
+        }
+        
+        // ID'ye göre sıralama
+        productsToRender.sort((a, b) => a.id - b.id);
+    
+        productsToRender.forEach(product => {
+          const categoryName = product.category === 'electronics' ? 'Elektronik' :
+                               product.category === 'clothing' ? 'Giyim' : 'Ev & Mutfak';
+          const status = product.quantity > 0
+            ? '<span class="badge bg-success">Stokta Var</span>'
+            : '<span class="badge bg-danger">Stokta Yok</span>';
+    
+          const row = `
+            <tr>
+              <td><img src="${product.image}" alt="${product.name}" style="width: 50px; height: 50px;"></td>
+              <td>${product.id.toString().padStart(3, '0')}</td>
+              <td>${product.name}</td>
+              <td>${categoryName}</td>
+              <td>${product.brand}</td>
+              <td>₺${product.price.toFixed(2)}</td>
+              <td>${product.quantity}</td>
+              <td>${status}</td>
+            </tr>
+          `;
+    
+          productsTableBody.insertAdjacentHTML('beforeend', row);
+        });
+      }
+  
+      // Event listener'lar
+      searchInput.addEventListener('input', filterProducts);
+      categoryFilter.addEventListener('change', filterProducts);
+      stockFilter.addEventListener('change', filterProducts);
+      resetFilters.addEventListener('click', () => {
+        searchInput.value = '';
+        categoryFilter.value = 'all';
+        stockFilter.value = 'all';
+        filterProducts();
+      });
+    </script>
+
+{% endblock %}
+
