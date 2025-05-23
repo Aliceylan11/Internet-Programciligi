@@ -321,41 +321,55 @@ def download_excel():
     # Dosyayı kullanıcıya gönder
     return send_file(output, as_attachment=True, download_name="urunler.xlsx", mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
+
 @app.route("/download_pdf")
 @login_required
 def download_pdf():
     products = Product.query.all()
+
     pdf = FPDF(orientation='L', unit='mm', format='A4')
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
 
-    font_path = os.path.join('static', 'fonts', 'arial.ttf')
+    # Arial font dosyasının yolu (dosya adının büyük/küçük harf duyarlılığına dikkat edin)
+    font_path = os.path.join('static', 'fonts', 'ARIAL.TTF')
     if os.path.exists(font_path):
         pdf.add_font('Arial', '', font_path, uni=True)
         pdf.set_font('Arial', '', 10)
     else:
         pdf.set_font('Arial', '', 10)
 
-    pdf.cell(275, 10, txt="Ürün Raporu", ln=True, align='C')
+    # Başlık
+    pdf.cell(0, 10, "Ürün Raporu", ln=True, align='C')
+    pdf.ln(5)
 
+    # Sütun genişlikleri
     column_widths = [40, 50, 50, 30, 30, 30, 30]
-    pdf.ln(10)
     headers = ["Barkod", "Adı", "Kategori", "Fiyat", "Marka", "Adet", "Kapasite"]
+
+    # Tablo başlıkları
     for i, header in enumerate(headers):
         pdf.cell(column_widths[i], 10, header, border=1, align='C')
-    pdf.ln(10)
+    pdf.ln()
 
+    # Veriler
     for product in products:
+        # Yeni sayfa eşiği kontrolü (sayfa sonuna yaklaşınca yeni sayfa aç)
         if pdf.get_y() > 190:
             pdf.add_page()
+            # Başlıkları yeni sayfaya tekrar ekle
+            for i, header in enumerate(headers):
+                pdf.cell(column_widths[i], 10, header, border=1, align='C')
+            pdf.ln()
+
         pdf.cell(column_widths[0], 10, product.barkod, border=1, align='C')
         pdf.cell(column_widths[1], 10, product.name, border=1, align='C')
         pdf.cell(column_widths[2], 10, product.category, border=1, align='C')
-        pdf.cell(column_widths[3], 10, str(product.fiyat), border=1, align='C')
+        pdf.cell(column_widths[3], 10, f"{product.fiyat:.2f}", border=1, align='C')
         pdf.cell(column_widths[4], 10, product.marka, border=1, align='C')
         pdf.cell(column_widths[5], 10, str(product.adet), border=1, align='C')
         pdf.cell(column_widths[6], 10, str(product.kapasite), border=1, align='C')
-        pdf.ln(10)
+        pdf.ln()
 
     pdf_output = pdf.output(dest='S').encode('latin1')
     output = io.BytesIO(pdf_output)
@@ -367,6 +381,7 @@ def download_pdf():
         download_name="urunler_yatay_format.pdf",
         mimetype="application/pdf"
     )
+
 
 @app.route("/download_csv")
 @login_required
