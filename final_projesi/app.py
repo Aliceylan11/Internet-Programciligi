@@ -321,35 +321,32 @@ def download_excel():
     # Dosyayı kullanıcıya gönder
     return send_file(output, as_attachment=True, download_name="urunler.xlsx", mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
-
-
 @app.route("/download_pdf")
 @login_required
 def download_pdf():
     products = Product.query.all()
-    pdf = FPDF(orientation='L', unit='mm', format='A4')  # A4 yatay formatında oluştur
+    pdf = FPDF(orientation='L', unit='mm', format='A4')
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
 
-    # Türkçe karakterler için uygun fontu yükleyin
-    font_path = os.path.join('static', 'fonts', 'arial.ttf')  # Font dosyasının doğru yolu
-    pdf.add_font('Arial', '', font_path, uni=True)
-    pdf.set_font('Arial', '', 10)  # Daha küçük font boyutu
+    font_path = os.path.join('static', 'fonts', 'arial.ttf')
+    if os.path.exists(font_path):
+        pdf.add_font('Arial', '', font_path, uni=True)
+        pdf.set_font('Arial', '', 10)
+    else:
+        pdf.set_font('Arial', '', 10)
 
-    # Başlık
-    pdf.cell(275, 10, txt="Ürün Raporu", ln=True, align='C')  # Yatay genişliğe uygun başlık
+    pdf.cell(275, 10, txt="Ürün Raporu", ln=True, align='C')
 
-    # Tablo Başlıkları
-    column_widths = [40, 50, 50, 30, 30, 30, 30]  # Yatay genişlik için sütun boyutları
+    column_widths = [40, 50, 50, 30, 30, 30, 30]
     pdf.ln(10)
     headers = ["Barkod", "Adı", "Kategori", "Fiyat", "Marka", "Adet", "Kapasite"]
     for i, header in enumerate(headers):
         pdf.cell(column_widths[i], 10, header, border=1, align='C')
     pdf.ln(10)
 
-    # Tablo Verileri
     for product in products:
-        if pdf.get_y() > 190:  # Sayfa sonuna yaklaştıysa yeni sayfa ekle
+        if pdf.get_y() > 190:
             pdf.add_page()
         pdf.cell(column_widths[0], 10, product.barkod, border=1, align='C')
         pdf.cell(column_widths[1], 10, product.name, border=1, align='C')
@@ -360,9 +357,8 @@ def download_pdf():
         pdf.cell(column_widths[6], 10, str(product.kapasite), border=1, align='C')
         pdf.ln(10)
 
-    output = io.BytesIO()
-    pdf.output(dest='S').encode('latin1')
-    output.write(pdf.output(dest='S').encode('latin1'))
+    pdf_output = pdf.output(dest='S').encode('latin1')
+    output = io.BytesIO(pdf_output)
     output.seek(0)
 
     return send_file(
