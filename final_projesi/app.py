@@ -230,7 +230,7 @@ def products_update(products):
         urunler.fiyat = request.form.get('fiyat')
         urunler.marka = request.form.get('marka')
         urunler.adet = request.form.get('adet')
-        urunler.kapasite = request.form..get('kapasite')
+        urunler.kapasite = request.form.get('kapasite')
         
         db.session.commit()
         return redirect(url_for('products'))
