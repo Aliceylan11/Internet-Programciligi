@@ -12,15 +12,15 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}?v=1.0">
-    <link rel="icon" type="png" href="{{ url_for('static', filename='image/logo.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}?v=1.0" />
+    <link rel="icon" type="png" href="{{ url_for('static', filename='image/logo.png') }}" />
   </head>
   <body>
+    <!-- Sidebar toggle checkbox body'de ve ilk çocuk olarak -->
+    <input type="checkbox" id="sidebarToggle" />
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container-fluid">
-        <!-- Sidebar toggle checkbox -->
-        <input type="checkbox" id="sidebarToggle" />
-
         <!-- Hamburger icon label -->
         <label for="sidebarToggle" class="menu-icon d-lg-none me-2 mb-0" style="cursor:pointer; color:white; font-size:1.5rem;">
           <i class="fas fa-bars"></i>
@@ -77,5 +77,10 @@
     <div class="main-content" id="mainContent">
       {% block content %}{% endblock %}
     </div>
+
+    <script>
+      // Eğer checkbox'ı JS ile kontrol etmek istersen burada yapabilirsin.
+      // Şimdilik gerek yok, CSS ile toggle çalışacak.
+    </script>
   </body>
 </html>
