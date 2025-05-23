@@ -18,37 +18,38 @@
           <h3 class="fw-bold mb-0"><i class="fas fa-edit me-2"></i>Ürün Güncelleme</h3>
           <p class="text-muted mb-0">Aşağıdaki formu düzenleyerek ürün bilgilerini güncelleyebilirsiniz</p>
         </div>
-       <form id="addProductForm" method="POST" action="{{ url_for('products_update', products=urunler.id) }}">
+
+        <form id="addProductForm" method="POST" action="{{ url_for('products_update', products=urunler.id) }}">
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="productSKU" class="form-label fw-bold">Barkod <span class="text-danger">*</span> </label>
-              <input type="text" class="form-control" id="productSKU" placeholder="Ürün kodu giriniz" name="barkod" required>
+              <input type="text" class="form-control" id="productSKU" placeholder="Ürün kodu giriniz" name="barkod" value="{{ urunler.barkod }}" required>
             </div>
             <div class="col-md-6">
               <label for="productName" class="form-label fw-bold">Ürün Adı <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="productName" placeholder="Ürün adını giriniz" name="name" required>
+              <input type="text" class="form-control" id="productName" placeholder="Ürün adını giriniz" name="name" value="{{ urunler.name }}" required>
             </div>
           </div>
 
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="productPrice" class="form-label fw-bold">Fiyat (₺) <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="productPrice" placeholder="Ürün fiyatını giriniz" name="fiyat" required>
+              <input type="text" class="form-control" id="productPrice" placeholder="Ürün fiyatını giriniz" name="fiyat" value="{{ urunler.fiyat }}" required>
             </div>
             <div class="col-md-6">
               <label for="productStock" class="form-label fw-bold">Stok Miktarı <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="productStock" placeholder="Stok miktarını giriniz" name="adet" required>
+              <input type="text" class="form-control" id="productStock" placeholder="Stok miktarını giriniz" name="adet" value="{{ urunler.adet }}" required>
             </div>
           </div>
 
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="productBrand" class="form-label fw-bold">Marka <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="productBrand" placeholder="Ürün markasını giriniz" name="marka" required>
+              <input type="text" class="form-control" id="productBrand" placeholder="Ürün markasını giriniz" name="marka" value="{{ urunler.marka }}" required>
             </div>
             <div class="col-md-6">
               <label for="productCapacity" class="form-label fw-bold">Kapasite <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="productCapacity" placeholder="Ürün kapasitesini giriniz" name="kapasite" required>
+              <input type="text" class="form-control" id="productCapacity" placeholder="Ürün kapasitesini giriniz" name="kapasite" value="{{ urunler.kapasite }}" required>
             </div>
           </div>
 
