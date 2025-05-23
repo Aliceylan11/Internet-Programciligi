@@ -1,0 +1,29 @@
+[
+       {
+              "id": 1,
+              "firstName": "Ali",
+              "lastName": "Ceylan",
+              "email": "ali@hotmail.com",
+              "role": "Admin",
+              "phone": "05459148499",
+              "password": "pbkdf2:sha256:1000000$iSbeKpvrzH2NS55z$9b887ec756286b2d1407d9531bde477722bdfb5540b0529b2626b0a772f4fd18"
+       },
+       {
+              "id": 2,
+              "firstName": "Leyla",
+              "lastName": "Taşdemir",
+              "email": "leyla@gmail.com",
+              "role": "Admin",
+              "phone": "05459148498",
+              "password": "pbkdf2:sha256:1000000$HAjEEoJI7GeDZh0X$628fd385a65ebb8f65fe1087ee970b1d35308cce5a1c293f2f0e26becc06d28b"
+       },
+       {
+              "id": 3,
+              "firstName": "Arda",
+              "lastName": "Irmak",
+              "email": "arda@hotmail.com",
+              "role": "User",
+              "phone": "05459148490",
+              "password": "scrypt:32768:8:1$NFt1IBC8YdPCzaeN$c5882d2487c943fc54e16f485bede8b1d31095ce096432d248bab304e37aa675a4abce5c0e0ad23dfc1fb81624756cbc644e362f9d63da4040faad101bee6d45"
+       }
+]

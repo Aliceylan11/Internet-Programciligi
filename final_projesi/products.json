@@ -1,0 +1,452 @@
+[
+        {
+                "id": 1,
+                "barkod": "E100",
+                "name": "İphone 13 Pro Max",
+                "category": "Elektronik",
+                "fiyat": 40000.0,
+                "marka": "Apple ",
+                "Capacity": 100,
+                "adet": 100
+        },
+        {
+                "id": 2,
+                "barkod": "E101",
+                "name": "İphone 14 ",
+                "category": "Elektronik",
+                "fiyat": 50000.0,
+                "marka": "Apple ",
+                "Capacity": 100,
+                "adet": 60
+        },
+        {
+                "id": 3,
+                "barkod": "E102",
+                "name": "İphone 15",
+                "category": "Elektronik",
+                "fiyat": 65000.0,
+                "marka": "Apple ",
+                "Capacity": 100,
+                "adet": 20
+        },
+        {
+                "id": 4,
+                "barkod": "E103",
+                "name": "İphone 16 ",
+                "category": "Elektronik",
+                "fiyat": 85000.0,
+                "marka": "Apple ",
+                "Capacity": 100,
+                "adet": 5
+        },
+        {
+                "id": 5,
+                "barkod": "E104",
+                "name": "İphone 17 ",
+                "category": "Elektronik",
+                "fiyat": 100000.0,
+                "marka": "Apple ",
+                "Capacity": 100,
+                "adet": 0
+        },
+        {
+                "id": 6,
+                "barkod": "S100",
+                "name": "Galaxy S23 Ultra",
+                "category": "Elektronik",
+                "fiyat": 32000.0,
+                "marka": "Samsung",
+                "Capacity": 100,
+                "adet": 100
+        },
+        {
+                "id": 7,
+                "barkod": "S101",
+                "name": "Galaxy S23+",
+                "category": "Elektronik",
+                "fiyat": 25000.0,
+                "marka": "Samsung",
+                "Capacity": 200,
+                "adet": 150
+        },
+        {
+                "id": 8,
+                "barkod": "S102",
+                "name": "Galaxy S22 Ultra",
+                "category": "Elektronik",
+                "fiyat": 28000.0,
+                "marka": "Samsung",
+                "Capacity": 100,
+                "adet": 100
+        },
+        {
+                "id": 9,
+                "barkod": "G100",
+                "name": "Erkek T-Shirt",
+                "category": "Giyim",
+                "fiyat": 300.0,
+                "marka": "Adidas",
+                "Capacity": 200,
+                "adet": 150
+        },
+        {
+                "id": 10,
+                "barkod": "G101",
+                "name": "Kadın Kot Pantolon",
+                "category": "Giyim",
+                "fiyat": 350.0,
+                "marka": "Levis",
+                "Capacity": 150,
+                "adet": 150
+        },
+        {
+                "id": 11,
+                "barkod": "G102",
+                "name": "Unisex Hoodie",
+                "category": "Giyim",
+                "fiyat": 300.0,
+                "marka": "Nike",
+                "Capacity": 300,
+                "adet": 250
+        },
+        {
+                "id": 12,
+                "barkod": "H100",
+                "name": "Çelik Tencere Seti",
+                "category": "Ev & Mutfak",
+                "fiyat": 1500.0,
+                "marka": "Karaca",
+                "Capacity": 100,
+                "adet": 100
+        },
+        {
+                "id": 13,
+                "barkod": "H101",
+                "name": "Blender",
+                "category": "Ev & Mutfak",
+                "fiyat": 2000.0,
+                "marka": "Arçelik",
+                "Capacity": 300,
+                "adet": 200
+        },
+        {
+                "id": 14,
+                "barkod": "H102",
+                "name": "Kahve Makinesi",
+                "category": "Ev & Mutfak",
+                "fiyat": 5000.0,
+                "marka": "Philips",
+                "Capacity": 100,
+                "adet": 50
+        },
+        {
+                "id": 15,
+                "barkod": "K100",
+                "name": "Fondöten",
+                "category": "Kozmetik",
+                "fiyat": 300.0,
+                "marka": "Maybelline",
+                "Capacity": 300,
+                "adet": 150
+        },
+        {
+                "id": 16,
+                "barkod": "K101",
+                "name": "Dudak Parlatıcısı",
+                "category": "Kozmetik",
+                "fiyat": 200.0,
+                "marka": "L'Oréal",
+                "Capacity": 300,
+                "adet": 100
+        },
+        {
+                "id": 17,
+                "barkod": "O100",
+                "name": "Cam Sileceği",
+                "category": "Otomotiv",
+                "fiyat": 1000.0,
+                "marka": "Bosch",
+                "Capacity": 150,
+                "adet": 100
+        },
+        {
+                "id": 18,
+                "barkod": "O101",
+                "name": "Motor Yağı 5W-30",
+                "category": "Otomotiv",
+                "fiyat": 1500.0,
+                "marka": "Castrol",
+                "Capacity": 100,
+                "adet": 5
+        },
+        {
+                "id": 19,
+                "barkod": "Y201",
+                "name": "Elma",
+                "category": "Yiyecek & İçecek",
+                "fiyat": 50.0,
+                "marka": "Doğal",
+                "Capacity": 100,
+                "adet": 60
+        },
+        {
+                "id": 20,
+                "barkod": "Y202",
+                "name": "Muz",
+                "category": "Yiyecek & İçecek",
+                "fiyat": 100.0,
+                "marka": "Organik",
+                "Capacity": 100,
+                "adet": 50
+        },
+        {
+                "id": 21,
+                "barkod": "Y203",
+                "name": "Çilek",
+                "category": "Yiyecek & İçecek",
+                "fiyat": 68.65,
+                "marka": "Organik",
+                "Capacity": 100,
+                "adet": 8
+        },
+        {
+                "id": 22,
+                "barkod": "Y204",
+                "name": "Domates",
+                "category": "Yiyecek & İçecek",
+                "fiyat": 50.0,
+                "marka": "Organik",
+                "Capacity": 100,
+                "adet": 50
+        },
+        {
+                "id": 23,
+                "barkod": "Y205",
+                "name": "Salatalık",
+                "category": "Yiyecek & İçecek",
+                "fiyat": 40.0,
+                "marka": "Organik",
+                "Capacity": 100,
+                "adet": 20
+        },
+        {
+                "id": 24,
+                "barkod": "H301",
+                "name": "Kedi Maması",
+                "category": "Evcil Hayvan",
+                "fiyat": 250.0,
+                "marka": "Whiskas",
+                "Capacity": 100,
+                "adet": 50
+        },
+        {
+                "id": 25,
+                "barkod": "H302",
+                "name": "Köpek Tasması",
+                "category": "Evcil Hayvan",
+                "fiyat": 150.0,
+                "marka": "PetLove",
+                "Capacity": 100,
+                "adet": 6
+        },
+        {
+                "id": 26,
+                "barkod": "K401",
+                "name": "Roman Kitap - \"Suç ve Ceza\"",
+                "category": "Kitap & Kırtasiye",
+                "fiyat": 200.0,
+                "marka": "Can Yayınları",
+                "Capacity": 100,
+                "adet": 75
+        },
+        {
+                "id": 27,
+                "barkod": "K402",
+                "name": "Tükenmez Kalem (Mavi)",
+                "category": "Kitap & Kırtasiye",
+                "fiyat": 55.0,
+                "marka": "Fatih",
+                "Capacity": 100,
+                "adet": 55
+        },
+        {
+                "id": 28,
+                "barkod": "S501",
+                "name": "Yoga Matı",
+                "category": "Spor & Outdoor",
+                "fiyat": 300.0,
+                "marka": "Decathlon",
+                "Capacity": 100,
+                "adet": 7
+        },
+        {
+                "id": 29,
+                "barkod": "S502",
+                "name": "Su Geçirmez Sırt Çantası",
+                "category": "Spor & Outdoor",
+                "fiyat": 500.0,
+                "marka": "Quechua",
+                "Capacity": 100,
+                "adet": 0
+        },
+        {
+                "id": 30,
+                "barkod": "H501",
+                "name": "El Dezenfektanı",
+                "category": "Sağlık & Bakım",
+                "fiyat": 100.0,
+                "marka": "PureHands",
+                "Capacity": 100,
+                "adet": 10
+        },
+        {
+                "id": 31,
+                "barkod": "H502",
+                "name": "Nemlendirici Krem",
+                "category": "Sağlık & Bakım",
+                "fiyat": 120.0,
+                "marka": "Nivea",
+                "Capacity": 100,
+                "adet": 60
+        },
+        {
+                "id": 32,
+                "barkod": "H503",
+                "name": "Antibakteriyel Sabun",
+                "category": "Sağlık & Bakım",
+                "fiyat": 150.0,
+                "marka": "Dove",
+                "Capacity": 100,
+                "adet": 0
+        },
+        {
+                "id": 33,
+                "barkod": "S105",
+                "name": "Samsung Galaxy Tab S9",
+                "category": "Elektronik",
+                "fiyat": 38000.0,
+                "marka": "Samsung",
+                "Capacity": 100,
+                "adet": 50
+        },
+        {
+                "id": 34,
+                "barkod": "S104",
+                "name": "Bose QuietComfort Kulaklık",
+                "category": "Elektronik",
+                "fiyat": 5000.0,
+                "marka": "Bose",
+                "Capacity": 100,
+                "adet": 9
+        },
+        {
+                "id": 35,
+                "barkod": "G103",
+                "name": "Kadın Ceket",
+                "category": "Giyim",
+                "fiyat": 3500.0,
+                "marka": "Zara",
+                "Capacity": 50,
+                "adet": 3
+        },
+        {
+                "id": 36,
+                "barkod": "G104",
+                "name": "Erkek Spor Ayakkabı",
+                "category": "Giyim",
+                "fiyat": 3865.0,
+                "marka": "Nike",
+                "Capacity": 100,
+                "adet": 0
+        },
+        {
+                "id": 37,
+                "barkod": "H103",
+                "name": "Elektrikli Süpürge",
+                "category": "Ev & Mutfak",
+                "fiyat": 6500.0,
+                "marka": "Dyson",
+                "Capacity": 100,
+                "adet": 50
+        },
+        {
+                "id": 38,
+                "barkod": "K103",
+                "name": "Ruj",
+                "category": "Kozmetik",
+                "fiyat": 250.0,
+                "marka": "Maybelline",
+                "Capacity": 200,
+                "adet": 155
+        },
+        {
+                "id": 39,
+                "barkod": "K104",
+                "name": "Oje Seti",
+                "category": "Kozmetik",
+                "fiyat": 250.0,
+                "marka": "Golden Rose",
+                "Capacity": 200,
+                "adet": 100
+        },
+        {
+                "id": 40,
+                "barkod": "Y206",
+                "name": "Portakal",
+                "category": "Yiyecek & İçecek",
+                "fiyat": 60.0,
+                "marka": "Antalya Meyve",
+                "Capacity": 100,
+                "adet": 0
+        },
+        {
+                "id": 41,
+                "barkod": "K403",
+                "name": "Roman (Sefiller)",
+                "category": "Kitap & Kırtasiye",
+                "fiyat": 300.0,
+                "marka": "Can Yayınları",
+                "Capacity": 100,
+                "adet": 50
+        },
+        {
+                "id": 42,
+                "barkod": "K404",
+                "name": "Kalem Seti",
+                "category": "Kitap & Kırtasiye",
+                "fiyat": 600.0,
+                "marka": "Faber-Castell",
+                "Capacity": 100,
+                "adet": 100
+        },
+        {
+                "id": 43,
+                "barkod": "S503",
+                "name": "Dambıl Seti",
+                "category": "Spor & Outdoor",
+                "fiyat": 2500.0,
+                "marka": "Decathlon",
+                "Capacity": 50,
+                "adet": 100
+        },
+        {
+                "id": 44,
+                "barkod": "H504",
+                "name": "Saç Şampuanı",
+                "category": "Sağlık & Bakım",
+                "fiyat": 150.0,
+                "marka": "Clear",
+                "Capacity": 100,
+                "adet": 100
+        },
+        {
+                "id": 45,
+                "barkod": "H505",
+                "name": "Diş Macunu",
+                "category": "Sağlık & Bakım",
+                "fiyat": 150.0,
+                "marka": "Colgate",
+                "Capacity": 200,
+                "adet": 200
+        }
+]
