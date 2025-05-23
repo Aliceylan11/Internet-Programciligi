@@ -225,12 +225,12 @@ def products_add():
 def products_update(products):
     urunler = Product.query.get(products)
     if request.method == 'POST':
-        urunler.barkod = request.form['barkod']
-        urunler.name = request.form['name']
-        urunler.fiyat = request.form['fiyat']
-        urunler.marka = request.form['marka']
-        urunler.adet = request.form['adet']
-        urunler.kapasite = request.form['kapasite']
+        urunler.barkod = request.form.get('barkod')
+        urunler.name = request.form.get('name')
+        urunler.fiyat = request.form.get('fiyat')
+        urunler.marka = request.form.get('marka')
+        urunler.adet = request.form.get('adet')
+        urunler.kapasite = request.form..get('kapasite')
         
         db.session.commit()
         return redirect(url_for('products'))
