@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="modern-hero">
+  <div class="hero-container">
+    <div class="hero-text">
+      <h1>Akıllı Depo Yönetimi</h1>
+      <p class="subtitle">Stoklarınızı kolayca takip edin, zaman kazanın</p>      
+      <div class="cta-container">
+        <a href="{{ url_for('login') }}" class="primary-btn">Hemen Deneyin</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="dashboard-mockup">
+        <div class="mockup-header">Stok Analiz Paneli</div>
+        <div class="mockup-content">
+          <div class="stats-row">
+            <div class="stat-item">
+              <div class="stat-value">{{ total_products }}</div>
+              <div class="stat-label">Ürün Çeşidi</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">{{ doluluk_orani }}%</div>
+              <div class="stat-label">Stok Doğruluğu</div>
+            </div>
+          </div>
+          <div class="chart-placeholder" style="height: auto;"><img src="{{ url_for('static', filename='image/Warehouse1.jpg') }}" alt="Stok Takip Uygulaması"class="img-fluid rounded shadow" 
+            style="width: 100%; height: 100%;"/></div> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--         diğer bölümler                 -->
+  <section id="features" class="py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold">Güçlü Özellikler</h2>
+        <p class="lead text-muted">Stok yönetiminizi kolaylaştıracak araçlar</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="feature-card p-4 text-center">
+            <div class="feature-icon">
+              <i class="fas fa-boxes"></i>
+            </div>
+            <a href="{{ url_for('products') }}">
+              <h3>Ürün Yönetimi</h3>
+              <p class="text-muted">Ürünlerinizi kolayca ekleyin, düzenleyin ve kategorilere göre filtreleyin.</p></a>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="feature-card p-4 text-center">
+            <div class="feature-icon">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <a href="{{ url_for('dashboard') }}">
+              <h3>Depo Yönetimi</h3>
+              <p class="text-muted">Gerçek zamanlı stok seviyelerini takip edin ve kritik seviyelerde uyarı alın.</p></a>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="feature-card p-4 text-center">
+            <div class="feature-icon">
+              <i class="fas fa-exclamation-triangle me-2"></i>
+            </div>
+            <a href="{{ url_for('critical_stock') }}">
+              <h3>Kritik Stok</h3>
+              <p class="text-muted">Kritik stok seviyelerini analiz edin, eksik ürünleri belirleyin ve hızlı aksiyon alın.</p></a>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="feature-card p-4 text-center">
+            <div class="feature-icon">
+              <i class="fas fa-file-excel"></i>
+            </div>
+            <a href="{{ url_for('reports') }}">
+              <h3>Raporlama</h3>
+              <p class="text-muted">Detaylı raporlar oluşturun ve Excel'e aktarın.</p></a>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="feature-card p-4 text-center">
+            <div class="feature-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <a href="{{ url_for('users') }}">
+              <h3>Çoklu Kullanıcı</h3>
+              <p class="text-muted">Birden fazla kullanıcı ile ekip olarak çalışın.</p></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

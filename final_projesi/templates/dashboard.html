@@ -1,0 +1,144 @@
+{% extends "dashboardbase.html" %}
+{% block content %}
+<div class="container-fluid">
+  <h2 class="mb-4">Dashboard</h2>
+  <div class="row">
+    <!-- Ürün Özeti Tablosu -->
+    <div class="col-md-8">
+      <div class="card mb-4">
+        <div class="card-header bg-primary text-white">Ürün Özeti</div>
+        <table class="table table-striped" id="productsTable">
+          <thead>
+            <tr>
+              <th>Barkod</th>
+              <th>Ad</th>
+              <th>Kategori</th>
+              <th>Stok Durumu</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for product in products.items %}
+            <tr>
+              <td>{{ product.barkod }}</td>
+              <td>{{ product.name }}</td>
+              <td>{{ product.category }}</td>
+              <td>
+                {% if product.adet > 0 %}
+                <span class="badge bg-success">Stokta Var</span>
+                {% else %}
+                <span class="badge bg-danger">Stokta Yok</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <!-- Pagination for Ürün Özeti -->
+        <nav>
+          <ul class="pagination justify-content-center">
+            {% if products.has_prev %}
+            <li class="page-item">
+              <a class="page-link" href="{{ url_for('dashboard', products_page=products.prev_num, critical_page=critical_products.page) }}">Önceki</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Önceki</span></li>
+            {% endif %}
+
+            {% for page in products.iter_pages(left_edge=2, right_edge=2, left_current=2, right_current=2) %}
+              {% if page %}
+                {% if page == products.page %}
+                <li class="page-item active"><span class="page-link">{{ page }}</span></li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('dashboard', products_page=page, critical_page=critical_products.page) }}">{{ page }}</a></li>
+                {% endif %}
+              {% else %}
+              <li class="page-item disabled"><span class="page-link">...</span></li>
+              {% endif %}
+            {% endfor %}
+
+            {% if products.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="{{ url_for('dashboard', products_page=products.next_num, critical_page=critical_products.page) }}">Sonraki</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Sonraki</span></li>
+            {% endif %}
+          </ul>
+        </nav>
+
+      </div>
+    </div>
+
+    <!-- Kritik Stok Tablosu -->
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <div class="card-header bg-danger text-white">
+          Kritik Stok Bildirimleri
+        </div>
+        <table class="table table-striped" id="criticalStockTable">
+          <thead>
+            <tr>
+              <th>Barkod</th>
+              <th>Ad</th>
+              <th>Adet</th>
+              <th>Stok Durumu</th>  
+            </tr>    
+          </thead>
+          <tbody>
+            {% for product in critical_products.items %}
+            <tr>
+              <td>{{ product.barkod }}</td>
+              <td>{{ product.name }}</td>
+              <td>{{ product.adet }}</td>
+              <td>
+                {% if product.adet >= 10 %}
+                <span class="badge bg-warning">Dikkat</span>
+                {% elif product.adet > 0 %}
+                <span class="badge bg-danger">Kritik seviye</span>
+                {% else %}
+                <span class="badge bg-dark">Stokta Yok</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <nav>
+          <ul class="pagination justify-content-center">
+            {% if critical_products.has_prev %}
+            <li class="page-item">
+              <a class="page-link" href="{{ url_for('dashboard', products_page=products.page, critical_page=critical_products.prev_num) }}">Önceki</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Önceki</span></li>
+            {% endif %}
+
+            {% for page in critical_products.iter_pages(left_edge=2, right_edge=2, left_current=2, right_current=2) %}
+              {% if page %}
+                {% if page == critical_products.page %}
+                <li class="page-item active"><span class="page-link">{{ page }}</span></li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('dashboard', products_page=products.page, critical_page=page) }}">{{ page }}</a></li>
+                {% endif %}
+              {% else %}
+              <li class="page-item disabled"><span class="page-link">...</span></li>
+              {% endif %}
+            {% endfor %}
+
+            {% if critical_products.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="{{ url_for('dashboard', products_page=products.page, critical_page=critical_products.next_num) }}">Sonraki</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Sonraki</span></li>
+            {% endif %}
+          </ul>
+        </nav>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

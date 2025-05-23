@@ -1,0 +1,139 @@
+{% extends "dashboardbase.html" %} {% block content %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="container-fluid">
+  <br />
+  <div class="card mb-4">
+    <div class="card-header">
+      <h5 class="mb-0"><i class="fas fa-table me-2"></i>Detaylı Stok Raporu</h5>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="table-light">
+            <tr>
+              <th>Ürün Kodu</th>
+              <th>Ürün Adı</th>
+              <th>Kategori</th>
+              <th>Marka</th>
+              <th>Kapasite</th>
+              <th>Stok</th>
+              <th>Fiyat</th>
+              <th>Stok durumu</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for product in products %}
+            <tr>
+              <td>{{ product.barkod }}</td>
+              <td>{{ product.name }}</td>
+              <td>{{ product.category }}</td>
+              <td>{{ product.marka }}</td>
+              <td>{{ product.kapasite }}</td>
+              <td>{{ product.adet }}</td>
+              <td>{{ product.fiyat }}</td>
+              {% if product.adet > 0 %}
+              <td><span class="badge bg-success">Stokta Var</span></td>
+              {% else %}
+              <td><span class="badge bg-danger">Stokta Yok</span></td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <nav>
+    <ul class="pagination justify-content-center">
+        {% if pagination.has_prev %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('reports', page=pagination.prev_num) }}">Önceki</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">Önceki</span>
+        </li>
+        {% endif %}
+
+        {% for page in pagination.iter_pages(left_edge=2, right_edge=2, left_current=2, right_current=2) %}
+        {% if page %}
+            {% if page == pagination.page %}
+            <li class="page-item active">
+                <span class="page-link">{{ page }}</span>
+            </li>
+            {% else %}
+            <li class="page-item">
+               <a class="page-link" href="{{ url_for('reports', page=page) }}">{{ page }}</a>
+            </li>
+            {% endif %}
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">...</span>
+            </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if pagination.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('reports', page=pagination.next_num) }}">Sonraki</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">Sonraki</span>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+  <div class="card">
+    <div class="card-header">
+      <h5 class="mb-0">
+        <i class="fas fa-file-download me-2"></i>İndirilebilir Raporlar
+      </h5>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <div class="card border-primary">
+            <div class="card-body text-center">
+              <i class="fas fa-file-excel fa-3x text-primary mb-3"></i>
+              <h5>Excel Raporu</h5>
+              <p class="text-muted">Tüm stok hareketlerini içerir</p>
+              <a href="{{ url_for('download_excel') }}"><button class="btn btn-outline-primary">
+                <i class="fas fa-download me-2"></i>İndir
+              </button>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card border-danger">
+            <div class="card-body text-center">
+              <i class="fas fa-file-pdf fa-3x text-danger mb-3"></i>
+              <h5>PDF Raporu</h5>
+              <p class="text-muted">Tüm stok hareketlerini içerir</p>
+              <a href="{{ url_for('download_pdf') }}"><button class="btn btn-outline-danger">
+                <i class="fas fa-download me-2"></i>İndir
+              </button></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card border-info">
+            <div class="card-body text-center">
+              <i class="fas fa-file-csv fa-3x text-info mb-3"></i>
+              <h5>CSV Raporu</h5>
+              <p class="text-muted">Tüm stok hareketlerini içerir</p>
+              <a href="{{ url_for('download_csv') }}"><button class="btn btn-outline-info">
+                <i class="fas fa-download me-2"></i>İndir
+              </button></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+{% endblock %}
