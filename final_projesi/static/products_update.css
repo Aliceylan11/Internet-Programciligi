@@ -1,0 +1,77 @@
+:root {
+  --primary-color: #4e73df;
+  --warning-color: #f6c23e;
+  --light-bg: #f8f9fc;
+  --card-border: #e3e6f0;
+}
+
+/* Form Container */
+.form-container {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+  padding: 2rem;
+  margin-top: 2rem;
+  border-left: 0.25rem solid var(--warning-color);
+}
+
+/* Form Başlık */
+.form-header {
+  border-bottom: 1px solid var(--card-border);
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Input Stilleri */
+.form-control, .form-select {
+  border-radius: 0.35rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--card-border);
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--warning-color);
+  box-shadow: 0 0 0 0.25rem rgba(246, 194, 62, 0.25);
+}
+
+/* Dosya Yükleme Alanı */
+.file-upload {
+  border: 2px dashed var(--card-border);
+  border-radius: 0.5rem;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.file-upload:hover {
+  border-color: var(--warning-color);
+  background-color: rgba(246, 194, 62, 0.05);
+}
+
+/* Butonlar */
+.btn-update {
+  background-color: var(--warning-color);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  color: #000;
+}
+
+.btn-update:hover {
+  background-color: #e0b236;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  background-color: transparent;
+  padding: 0;
+  font-size: 0.9rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .form-container {
+    padding: 1.5rem;
+  }
+}

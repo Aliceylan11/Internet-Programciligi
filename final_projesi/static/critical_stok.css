@@ -1,0 +1,31 @@
+:root {
+    --primary-color: #4e73df;
+    --danger-color: #e74a3b;
+    --warning-color: #f6c23e;
+    --light-bg: #f8f9fc;
+}
+.critical-stock-container {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.35rem;
+    box-shadow: 0 0.15rem 1.75rem rgba(58, 59, 69, 0.15);
+}
+
+.critical-stock-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.stock-table th {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.low-stock {
+    color: var(--danger-color);
+    font-weight: bold;
+}
+
+.moderate-stock {
+    color: var(--warning-color);
+    font-weight: bold;
+}

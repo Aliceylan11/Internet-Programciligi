@@ -1,0 +1,83 @@
+:root {
+  --primary-color: #4e73df;
+  --danger-color: #e74a3b;
+  --success-color: #1cc88a;
+  --light-bg: #f8f9fc;
+  --card-border: #e3e6f0;
+  --primary-color-hover: #3a65c6;
+  --danger-color-hover: #dc4630;
+  --success-color-hover: #16a078;
+}
+
+/* Ürün Kartı */
+.product-card {
+  border: 1px solid var(--card-border);
+  border-radius: 0.35rem;
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  height: 100%;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1.5rem 0 rgba(58, 59, 69, 0.2);
+}
+
+/* Ürün Resmi */
+.product-img {
+  max-height: 140px;
+  object-fit: contain;
+  padding: 1rem;
+  background: var(--light-bg);
+  border-radius: 0.25rem;
+  margin: 0 auto;
+  display: block;
+}
+
+/* Butonlar */
+.btn-add,
+.btn-delete,
+.btn-update {
+  border: none;
+}
+
+.btn-add {
+  background-color: var(--primary-color);
+}
+
+.btn-delete {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+.btn-update {
+  background-color: var(--success-color);
+  color: white;
+}
+
+.btn-add:hover {
+  background-color: var(--primary-color-hover);
+}
+
+.btn-delete:hover {
+  background-color: var(--danger-color-hover);
+}
+
+.btn-update:hover {
+  background-color: var(--success-color-hover);
+}
+
+/* İstatistik Kartı */
+.stats-card {
+  border-left: 0.25rem solid var(--primary-color);
+  border-radius: 0.35rem;
+}
+
+/* Filtre Bölümü */
+.filter-section {
+  background: white;
+  border-radius: 0.35rem;
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
