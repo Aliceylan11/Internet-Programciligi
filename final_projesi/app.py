@@ -240,6 +240,9 @@ def products_update(products):
 @app.route("/login/dashboard/products/delete/<int:products>", methods=['GET', 'POST'])
 @login_required
 def products_delete(products):
+      if current_user.role != 'Admin':
+        flash("Güncelleme yetkiniz bulunmamaktadır!", "danger")
+        return redirect(url_for('products'))
     products = Product.query.get(products)
     if request.method == 'POST':
         db.session.delete(products)
