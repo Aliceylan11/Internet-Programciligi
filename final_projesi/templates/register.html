@@ -65,15 +65,13 @@
                 />
               </div>
 
-              <div class="mb-3">
-                <label for="company" class="form-label">Kullanıcı Rolünüz</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="role"
-                  name="role"
-                  required
-                />
+           <div class="mb-3">
+                <label for="role" class="form-label fw-bold">Kullanıcı Rolünüz</label>
+                <select id="role" class="form-select" name="role" required>
+                  <option value="Admin">Admin</option>
+                  <option value="User">User</option>
+                  <option value="Moderatör">Moderatör</option>
+                </select>
               </div>
 
               <div class="mb-3">
