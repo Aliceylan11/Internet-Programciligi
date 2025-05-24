@@ -250,6 +250,7 @@ def products_delete(products):
     if request.method == 'POST':
         db.session.delete(products)
         db.session.commit()
+        flash(f"{products.name} adlı ürün başarıyla silindi.", "success")
         return redirect(url_for('products'))
     return render_template("products.html", products=products)
 
