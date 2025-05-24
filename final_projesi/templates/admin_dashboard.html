@@ -1,0 +1,62 @@
+{% extends "dashboardbase.html" %}
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show" role="alert">
+        <i class="fas {{ 'fa-check-circle' if category == 'success' else 'fa-exclamation-circle' }} me-2"></i>{{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="fw-bold"><i class="fas fa-tools me-2"></i>Admin Paneli</h2>
+</div>
+
+<div class="row">
+  <div class="col-md-6 col-xl-4 mb-4">
+    <div class="card shadow-sm border-0">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="bg-primary text-white rounded-circle p-3 me-3">
+            <i class="fas fa-users fa-lg"></i>
+          </div>
+          <div>
+            <h5 class="mb-0">Kullanıcı Sayısı</h5>
+            <h3 class="fw-bold">{{ total_users }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-xl-4 mb-4">
+    <div class="card shadow-sm border-0">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="bg-success text-white rounded-circle p-3 me-3">
+            <i class="fas fa-boxes fa-lg"></i>
+          </div>
+          <div>
+            <h5 class="mb-0">Ürün Sayısı</h5>
+            <h3 class="fw-bold">{{ total_products }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mt-4">
+  <a href="{{ url_for('users') }}" class="btn btn-outline-primary me-2">
+    <i class="fas fa-user-cog me-1"></i> Kullanıcıları Yönet
+  </a>
+  <a href="{{ url_for('products') }}" class="btn btn-outline-success">
+    <i class="fas fa-box-open me-1"></i> Ürünleri Yönet
+  </a>
+</div>
+
+{% endblock %}
