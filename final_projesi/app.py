@@ -152,6 +152,9 @@ def update_user(user_id):
         return redirect(url_for('users'))
     user = User.query.get_or_404(user_id)  # Kullanıcıyı veritabanından al
     if request.method == "POST":
+        user.firstName = request.form.get('firstName')
+        user.lastName = request.form.get('lastName')
+        user.email = request.form.get('email')
         user.phone = request.form.get("phone")
         user.role = request.form.get("role")
         new_password = request.form.get("password")
@@ -241,7 +244,7 @@ def products_update(products):
 @login_required
 def products_delete(products):
     if current_user.role != 'Admin':
-        flash("Güncelleme yetkiniz bulunmamaktadır!", "danger")
+        flash("Silme yetkiniz bulunmamaktadır!", "danger")
         return redirect(url_for('products'))
     products = Product.query.get(products)
     if request.method == 'POST':
