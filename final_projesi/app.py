@@ -86,7 +86,6 @@ def register():
     firstName = request.form.get('firstName')
     lastName = request.form.get('lastName')
     email = request.form.get('email')
-    role = request.form.get('role')
     phone = request.form.get('phone')
     password = request.form.get('password')
     confirmPassword = request.form.get('confirmPassword')
@@ -100,7 +99,7 @@ def register():
     # Şifreyi güvenli hâle getir (hashleme)
     hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
     # Yeni kullanıcı oluştur
-    new_user = User(firstName=firstName, lastName=lastName,email=email, role=role , phone=phone, password=hashed_password, confirmPassword=confirmPassword)
+    new_user = User(firstName=firstName, lastName=lastName,email=email, role='User' , phone=phone, password=hashed_password, confirmPassword=confirmPassword)
     db.session.add(new_user)
     db.session.commit()
     
@@ -112,6 +111,8 @@ def register():
 @app.route('/dashboard')
 @login_required
 def dashboard():
+    if current_user.role == 'Admin':
+        return redirect(url_for('admin_dashboard'))
     products_page = request.args.get('products_page', 1, type=int)
     critical_page = request.args.get('critical_page', 1, type=int)
     per_page = 10
@@ -122,6 +123,22 @@ def dashboard():
                            name=current_user.firstName, 
                            products=products, 
                            critical_products=critical_products)
+    
+    
+    
+@app.route('/admin/dashboard')
+@login_required
+def admin_dashboard():
+    if current_user.role != 'Admin':
+        abort(403)  # yetkisiz kullanıcı engellenir
+
+    total_users = User.query.count()
+    total_products = Product.query.count()
+    return render_template("admin_dashboard.html", 
+                           total_users=total_users, 
+                           total_products=total_products)
+    
+        
 
 @app.route('/logout')
 @login_required
@@ -147,34 +164,36 @@ def users():
 @app.route("/login/dashboard/users/update/<int:user_id>", methods=["GET", "POST"])
 @login_required
 def update_user(user_id):
-    if current_user.role != 'Admin':
-        flash("Güncelleme yetkiniz bulunmamaktadır!", "danger")
-        return redirect(url_for('users'))
     user = User.query.get_or_404(user_id)  # Kullanıcıyı veritabanından al
+    if current_user.id != user.id and current_user.role != 'Admin':
+        flash('Sadece kendi bilgilerinizi güncelleyebilirsiniz.', 'danger')
+        return redirect(url_for('users'))
     if request.method == "POST":
-        user.firstName = request.form.get('firstName')
-        user.lastName = request.form.get('lastName')
-        user.email = request.form.get('email')
-        user.phone = request.form.get("phone")
-        user.role = request.form.get("role")
-        new_password = request.form.get("password")
-        if new_password:  # Eğer yeni şifre girilmişse
-            user.set_password(new_password) 
-        if new_password != request.form.get("confirmPassword"):
-            flash("Şifreler eşleşmiyor!", "danger")
-            return redirect(url_for("update_user", user_id=user_id))
+        user.firstName = request.form['firstName']
+        user.lastName = request.form['lastName']
+        user.email = request.form['email']
+        user.phone = request.form['phone']
+        #user.role = request.form['role']
+        new_password = request.form['password']
+        confirm_password = request.form['confirmPassword']
+        if new_password or confirm_password:  # şifre değişikliği istenmişse
+            if new_password != confirm_password:
+                flash("Şifreler eşleşmiyor!", "danger")
+                return redirect(url_for("update_user", user_id=user_id))
+        user.set_password(new_password)
         db.session.commit()
         flash("Kullanıcı bilgileri başarıyla güncellendi.", "success")
         return redirect(url_for("users")) 
     return render_template("users_update.html", user=user)
 
+
 @app.route("/login/dashboard/users/delete/<int:user_id>", methods=['POST'])
 @login_required
 def users_delete(user_id):
-    if current_user.role != 'Admin':
-        flash("Silme yetkiniz bulunmamaktadır!", "danger")
-        return redirect(url_for('users'))
     user = User.query.get_or_404(user_id)  # Kullanıcıyı al, bulunamazsa 404 döner
+    if current_user.id != user.id and current_user.role != 'Admin':
+        flash('Sadece kendi bilgilerinizi silebilirsiniz.', 'danger')
+        return redirect(url_for('users'))
     db.session.delete(user)
     db.session.commit()
     flash(f"{user.firstName} adlı kullanıcı başarıyla silindi.", "success")
@@ -226,27 +245,30 @@ def products_add():
 @app.route("/login/dashboard/products/update/<int:products>", methods=['GET', 'POST'])
 @login_required
 def products_update(products):
-    urunler = Product.query.get(products)
+    urun = Product.query.get(products)
+    if urun.user_id != current_user.id and current_user.role != 'Admin':
+        flash('Bu ürünü güncelleme yetkiniz yok.', 'danger')
+        return redirect(url_for('products'))
     if request.method == 'POST':
-        urunler.barkod = request.form.get('barkod')
-        urunler.name = request.form.get('name')
-        urunler.fiyat = request.form.get('fiyat')
-        urunler.marka = request.form.get('marka')
-        urunler.adet = request.form.get('adet')
-        urunler.kapasite = request.form.get('kapasite')
+        urun.barkod = request.form['barkod']
+        urun.name = request.form['name']
+        urun.fiyat = request.form['fiyat']
+        urun.marka = request.form['marka']
+        urun.adet = request.form['adet']
+        urun.kapasite = request.form['kapasite']
         
         db.session.commit()
         return redirect(url_for('products'))
-    return render_template("products_update.html", urunler=urunler)
+    return render_template("products_update.html", urunler=urun)
 
 
 @app.route("/login/dashboard/products/delete/<int:products>", methods=['GET', 'POST'])
 @login_required
 def products_delete(products):
-    if current_user.role != 'Admin':
-        flash("Silme yetkiniz bulunmamaktadır!", "danger")
-        return redirect(url_for('products'))
     products = Product.query.get(products)
+    if current_user.role != 'Admin' and products.user_id != current_user.id:
+        flash("Bu ürünü silme yetkiniz yok!", "danger")
+        return redirect(url_for("products"))
     if request.method == 'POST':
         db.session.delete(products)
         db.session.commit()
@@ -329,57 +351,47 @@ def download_excel():
     return send_file(output, as_attachment=True, download_name="urunler.xlsx", mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
 
+
 @app.route("/download_pdf")
 @login_required
 def download_pdf():
     products = Product.query.all()
-
-    pdf = FPDF(orientation='L', unit='mm', format='A4')
+    pdf = FPDF(orientation='L', unit='mm', format='A4')  # A4 yatay formatında oluştur
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
 
-    # Arial font dosyasının yolu (dosya adının büyük/küçük harf duyarlılığına dikkat edin)
-    font_path = os.path.join('static', 'fonts', 'ARIAL.TTF')
-    if os.path.exists(font_path):
-        pdf.add_font('Arial', '', font_path, uni=True)
-        pdf.set_font('Arial', '', 10)
-    else:
-        pdf.set_font('Arial', '', 10)
+    # Türkçe karakterler için uygun fontu yükleyin
+    font_path = os.path.join('static', 'fonts', 'arial.ttf')  # Font dosyasının doğru yolu
+    pdf.add_font('Arial', '', font_path, uni=True)
+    pdf.set_font('Arial', '', 10)  # Daha küçük font boyutu
 
     # Başlık
-    pdf.cell(0, 10, "Ürün Raporu", ln=True, align='C')
-    pdf.ln(5)
+    pdf.cell(275, 10, txt="Ürün Raporu", ln=True, align='C')  # Yatay genişliğe uygun başlık
 
-    # Sütun genişlikleri
-    column_widths = [40, 50, 50, 30, 30, 30, 30]
+    # Tablo Başlıkları
+    column_widths = [40, 50, 50, 30, 30, 30, 30]  # Yatay genişlik için sütun boyutları
+    pdf.ln(10)
     headers = ["Barkod", "Adı", "Kategori", "Fiyat", "Marka", "Adet", "Kapasite"]
-
-    # Tablo başlıkları
     for i, header in enumerate(headers):
         pdf.cell(column_widths[i], 10, header, border=1, align='C')
-    pdf.ln()
+    pdf.ln(10)
 
-    # Veriler
+    # Tablo Verileri
     for product in products:
-        # Yeni sayfa eşiği kontrolü (sayfa sonuna yaklaşınca yeni sayfa aç)
-        if pdf.get_y() > 190:
+        if pdf.get_y() > 190:  # Sayfa sonuna yaklaştıysa yeni sayfa ekle
             pdf.add_page()
-            # Başlıkları yeni sayfaya tekrar ekle
-            for i, header in enumerate(headers):
-                pdf.cell(column_widths[i], 10, header, border=1, align='C')
-            pdf.ln()
-
         pdf.cell(column_widths[0], 10, product.barkod, border=1, align='C')
         pdf.cell(column_widths[1], 10, product.name, border=1, align='C')
         pdf.cell(column_widths[2], 10, product.category, border=1, align='C')
-        pdf.cell(column_widths[3], 10, f"{product.fiyat:.2f}", border=1, align='C')
+        pdf.cell(column_widths[3], 10, str(product.fiyat), border=1, align='C')
         pdf.cell(column_widths[4], 10, product.marka, border=1, align='C')
         pdf.cell(column_widths[5], 10, str(product.adet), border=1, align='C')
         pdf.cell(column_widths[6], 10, str(product.kapasite), border=1, align='C')
-        pdf.ln()
+        pdf.ln(10)
 
-    pdf_output = pdf.output(dest='S').encode('latin1')
-    output = io.BytesIO(pdf_output)
+    output = io.BytesIO()
+    pdf.output(dest='S').encode('latin1')
+    output.write(pdf.output(dest='S').encode('latin1'))
     output.seek(0)
 
     return send_file(
@@ -388,7 +400,6 @@ def download_pdf():
         download_name="urunler_yatay_format.pdf",
         mimetype="application/pdf"
     )
-
 
 @app.route("/download_csv")
 @login_required
@@ -424,5 +435,6 @@ def download_csv():
         download_name="urunler.csv",
         mimetype="text/csv"
     )
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0",port=int(os.environ.get("PORT",5000)))
