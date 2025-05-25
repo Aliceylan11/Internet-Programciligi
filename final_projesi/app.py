@@ -28,6 +28,8 @@ class User(UserMixin, db.Model):
     urunler = db.relationship('Product', back_populates='user', cascade='all, delete-orphan') #ürünler ile kullanıcı arasında ilişki tanımı
     def set_password(self, password):
         self.password = generate_password_hash(password)
+        
+        
 class Product(UserMixin,db.Model):
     id = db.Column(db.Integer, primary_key=True)  # essiz id tanimi
     barkod = db.Column(db.String(100),unique=True ,nullable=False)  # barkod numarasi
@@ -76,9 +78,9 @@ def login():
         if user and  check_password_hash(user.password, password):
             login_user(user)
             return redirect(url_for('dashboard'))
-        
         flash('E-posta veya şifre hatalı!', 'danger')
     return render_template("login.html") 
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -111,25 +113,19 @@ def register():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    if current_user.role == 'Admin':
+    if current_user.role == 'admin':
         return redirect(url_for('admin_dashboard'))
-    products_page = request.args.get('products_page', 1, type=int)
-    critical_page = request.args.get('critical_page', 1, type=int)
-    per_page = 10
-    products = Product.query.paginate(page=products_page, per_page=per_page, error_out=False)
-    critical_products = Product.query.filter(Product.adet <= 10).paginate(page=critical_page, per_page=per_page, error_out=False)
-
-    return render_template('dashboard.html', 
-                           name=current_user.firstName, 
-                           products=products, 
-                           critical_products=critical_products)
+    page = request.args.get('page', 1, type=int)  
+    per_page = 15 
+    pagination = Product.query.filter_by(user_id=current_user.id).paginate(page=page, per_page=per_page, error_out=False)
+    return render_template('dashboard.html',name=current_user.firstName,products=pagination.items, pagination=pagination)
     
     
     
-@app.route('/admin/dashboard')
+@app.route('/dashboard/admin')
 @login_required
 def admin_dashboard():
-    if current_user.role != 'Admin':
+    if current_user.role != 'admin':
         abort(403)  # yetkisiz kullanıcı engellenir
 
     total_users = User.query.count()
@@ -138,8 +134,54 @@ def admin_dashboard():
                            total_users=total_users, 
                            total_products=total_products)
     
-        
+@app.route('/admin/user-products', methods=['GET', 'POST'])
+@login_required
+def user_products():
+    user = None
+    page = request.args.get('page', 1, type=int)
+    per_page = 5
+    if request.method == 'POST':
+        user_id = request.form.get('user_id')
+        if user_id:
+            return redirect(url_for('user_products', user_id=user_id))
+        else:
+            flash('Kullanıcı ID giriniz!', 'danger')
+            return redirect(url_for('admin_dashboard'))
+    user_id = request.args.get('user_id', type=int)
+    if user_id:
+        user = User.query.get(user_id)
+        if user:
+            pagination = Product.query.filter_by(user_id=user_id).paginate(page=page, per_page=per_page, error_out=False)
+        else:
+            flash('Kullanıcı bulunamadı!', 'danger')
+            return redirect(url_for('admin_dashboard'))
+    else:
+        pagination = None
+    products = pagination.items if pagination else []
+    return render_template('admin_dashboard.html', user=user, products=products, pagination=pagination)
 
+        
+@app.route('/admin_authorization', methods=['GET','POST'])
+@login_required
+def admin_authorization():
+    users = User.query.all()
+    if request.method == 'POST':
+        updated = False
+        for user in users:
+            form_role = request.form.get(f'role_{user.id}')
+            if form_role and form_role != user.role:
+                user.role = form_role
+                updated = True
+        if updated:
+            db.session.commit()
+            flash('Roller başarıyla güncellendi.', 'success')
+        else:
+            flash('Hiçbir değişiklik yapılamadı.', 'info')
+        return redirect(url_for('admin_authorization'))        
+    return render_template('admin_authorization.html', users=users)
+        
+        
+        
 @app.route('/logout')
 @login_required
 def logout():
@@ -151,7 +193,11 @@ def logout():
 def critical_stock():
     page = request.args.get('page', 1, type=int)  
     per_page = 10  
-    critical_products = Product.query.filter(Product.adet <= 10).paginate(page=page, per_page=per_page, error_out=False)
+    
+    if current_user.role == 'admin':
+        critical_products = Product.query.filter(Product.adet <= 10).paginate(page=page, per_page=per_page, error_out=False)
+    else:   
+        critical_products = Product.query.filter(Product.user_id == current_user.id,Product.adet <= 10).paginate(page=page, per_page=per_page, error_out=False)
     return render_template("critical_stock.html", critical_products=critical_products)
 
 
@@ -165,7 +211,7 @@ def users():
 @login_required
 def update_user(user_id):
     user = User.query.get_or_404(user_id)  # Kullanıcıyı veritabanından al
-    if current_user.id != user.id and current_user.role != 'Admin':
+    if current_user.id != user.id and current_user.role != 'admin':
         flash('Sadece kendi bilgilerinizi güncelleyebilirsiniz.', 'danger')
         return redirect(url_for('users'))
     if request.method == "POST":
@@ -176,11 +222,11 @@ def update_user(user_id):
         #user.role = request.form['role']
         new_password = request.form['password']
         confirm_password = request.form['confirmPassword']
-        if new_password or confirm_password:  # şifre değişikliği istenmişse
+        if new_password or confirm_password:
             if new_password != confirm_password:
                 flash("Şifreler eşleşmiyor!", "danger")
                 return redirect(url_for("update_user", user_id=user_id))
-        user.set_password(new_password)
+            user.set_password(new_password)
         db.session.commit()
         flash("Kullanıcı bilgileri başarıyla güncellendi.", "success")
         return redirect(url_for("users")) 
@@ -191,7 +237,7 @@ def update_user(user_id):
 @login_required
 def users_delete(user_id):
     user = User.query.get_or_404(user_id)  # Kullanıcıyı al, bulunamazsa 404 döner
-    if current_user.id != user.id and current_user.role != 'Admin':
+    if current_user.id != user.id and current_user.role != 'admin':
         flash('Sadece kendi bilgilerinizi silebilirsiniz.', 'danger')
         return redirect(url_for('users'))
     db.session.delete(user)
@@ -236,7 +282,7 @@ def products_add():
             db.session.add(new_product) 
             db.session.commit()
             flash('Ürün başarıyla eklendi!', 'success')
-            return redirect(url_for('products'))
+            return redirect(url_for('dashboard'))
         else:
             flash('Ürün eklenemedi!', 'danger')
             return redirect(url_for('products_add'))
@@ -246,7 +292,7 @@ def products_add():
 @login_required
 def products_update(products):
     urun = Product.query.get(products)
-    if urun.user_id != current_user.id and current_user.role != 'Admin':
+    if urun.user_id != current_user.id and current_user.role != 'admin':
         flash('Bu ürünü güncelleme yetkiniz yok.', 'danger')
         return redirect(url_for('products'))
     if request.method == 'POST':
@@ -258,22 +304,23 @@ def products_update(products):
         urun.kapasite = request.form['kapasite']
         
         db.session.commit()
-        return redirect(url_for('products'))
+        flash(f"{urun.name} adlı ürün başarıyla güncellendi.", "success")
+        return redirect(url_for('dashboard')) 
     return render_template("products_update.html", urunler=urun)
 
 
-@app.route("/login/dashboard/products/delete/<int:products>", methods=['GET', 'POST'])
+@app.route("/login/dashboard/products/delete/<int:products>", methods=['POST'])
 @login_required
 def products_delete(products):
     products = Product.query.get(products)
-    if current_user.role != 'Admin' and products.user_id != current_user.id:
+    if current_user.role != 'admin' and products.user_id != current_user.id:
         flash("Bu ürünü silme yetkiniz yok!", "danger")
         return redirect(url_for("products"))
     if request.method == 'POST':
         db.session.delete(products)
         db.session.commit()
         flash(f"{products.name} adlı ürün başarıyla silindi.", "success")
-        return redirect(url_for('products'))
+        return redirect(url_for('dashboard'))
     return render_template("products.html", products=products)
 
 
@@ -296,7 +343,7 @@ def filter_products():
         query = query.filter(Product.category == category)
 
     if search_query:
-        query = query.filter(Product.name.ilike(f"%{search_query}%"))
+        query = query.filter(Product.barkod.ilike(f"%{search_query}%"))
 
     pagination = query.paginate(page=page, per_page=per_page, error_out=False)
 
@@ -309,12 +356,50 @@ def filter_products():
         search_query=search_query
     )
     
+@app.route("/login/dashboard/filter", methods=["GET"])
+@login_required
+def filter_dashboard():
+    stock_status = request.args.get('stock_status', 'all')  
+    category = request.args.get('category', 'all')  
+    search_query = request.args.get('search_query', '').strip()
+    page = request.args.get('page', 1, type=int)  # Sayfa numarasını al
+    per_page = 15  # Sayfa başına ürün sayısı
+    query = Product.query.filter(Product.user_id==current_user.id)
+
+    if stock_status == 'in_stock':
+        query = query.filter(Product.adet > 0)
+        
+    elif stock_status == 'out_of_stock':
+        query = query.filter(Product.adet == 0)
+    
+    if category != 'all':
+        query = query.filter(Product.category == category)
+
+    if search_query:
+        query = query.filter(Product.barkod.ilike(f"%{search_query}%"))
+
+    pagination = query.paginate(page=page, per_page=per_page, error_out=False)
+
+    return render_template(
+        "dashboard.html", 
+        products=pagination.items, 
+        pagination=pagination, 
+        stock_status=stock_status, 
+        category=category, 
+        search_query=search_query
+    )
+        
+    
 @app.route("/login/dashboard/reports")
 @login_required
 def reports():
     page = request.args.get('page', 1, type=int)  
     per_page = 7 
-    pagination = Product.query.paginate(page=page, per_page=per_page, error_out=False)
+    
+    if current_user.role == 'admin':
+        pagination = Product.query.paginate(page=page, per_page=per_page, error_out=False)
+    else:
+        pagination = Product.query.filter(Product.user_id==current_user.id).paginate(page=page, per_page=per_page, error_out=False)
     products = pagination.items
     return render_template("reports.html", products=products, pagination=pagination)
 
@@ -323,8 +408,10 @@ def reports():
 @login_required
 def download_excel():
     # Veritabanındaki ürünleri al
-    products = Product.query.all()
-
+    if current_user.role == 'admin':
+        products = Product.query.all()
+    else:
+        products = Product.query.filter_by(user_id=current_user.id).all()
     # Verileri bir DataFrame'e dönüştür
     data = []
     for product in products:
@@ -355,7 +442,10 @@ def download_excel():
 @app.route("/download_pdf")
 @login_required
 def download_pdf():
-    products = Product.query.all()
+    if current_user.role == 'admin':
+        products = Product.query.all()
+    else:
+        products = Product.query.filter_by(user_id=current_user.id).all()    
     pdf = FPDF(orientation='L', unit='mm', format='A4')  # A4 yatay formatında oluştur
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
@@ -405,8 +495,10 @@ def download_pdf():
 @login_required
 def download_csv():
     # Veritabanındaki ürünleri al
-    products = Product.query.all()
-
+    if current_user.role == 'admin':
+        products = Product.query.all()
+    else:
+        products = Product.query.filter_by(user_id=current_user.id).all()
     # Verileri bir listeye dönüştür
     data = []
     for product in products:
