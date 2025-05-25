@@ -1,0 +1,230 @@
+{% extends "dashboardbase.html" %} 
+{% block title %}Ürünler{% endblock %}
+{% block content %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='products.css') }}?v=1.0"
+/>
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+/>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+{% with messages = get_flashed_messages(with_categories=true)%} {% if messages%}
+{% for category, message in messages %} {% if category == 'success' %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <i class="fas fa-check-circle me-2"></i>{{ message }}
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+{% else %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <i class="fas fa-exclamation-circle me-2"></i>{{ message }}
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+{% endif %} {% endfor %} {% endif %} {% endwith %}
+
+<div class="filter-section mb-4">
+  <h5 class="fw-bold mb-3">
+    <i class="fas fa-filter me-2"></i>Filtreleme Seçenekleri
+  </h5>
+  <div class="row">
+    <div class="col-md-3 mb-3">
+  <form method="get" action="{{ url_for('filter_products') }}">
+    <label class="form-label fw-bold">Arama</label>
+    <div class="input-group">
+      <button type="submit" class="input-group-text btn btn-dark">
+        <i class="fas fa-search"></i>
+      </button>
+      <input
+        type="text"
+        id="searchInput"
+        name="search_query"
+        class="form-control"
+        placeholder="Ürün barkodunu girin..."
+        value="{{ request.args.get('search_query', '') }}"
+      />
+    </div>
+  </form>
+</div>
+
+
+    <div class="col-md-3 mb-3">
+          <form method="get" action="{{ url_for('filter_products') }}">
+      <label class="form-label fw-bold">Kategori</label>
+        <select id="categoryFilter" class="form-select" name="category" onchange="this.form.submit()">
+          <option value="all" {% if category == 'all' %}selected{% endif %}>Tüm Kategoriler</option>
+          <option value="Elektronik" {% if category == 'Elektronik' %}selected{% endif %}>Elektronik</option>
+          <option value="Giyim" {% if category == 'Giyim' %}selected{% endif %}>Giyim</option>
+          <option value="Ev & Mutfak" {% if category == 'Ev & Mutfak' %}selected{% endif %}>Ev & Mutfak</option>
+          <option value="Kozmetik" {% if category == 'Kozmetik' %}selected{% endif %}>Kozmetik</option>
+          <option value="Otomotiv" {% if category == 'Otomotiv' %}selected{% endif %}>Otomotiv</option>
+          <option value="Yiyecek & İçecek" {% if category == 'Yiyecek & İçecek' %}selected{% endif %}>Yiyecek & İçecek</option>
+          <option value="Evcil Hayvan" {% if category == 'Evcil Hayvan' %}selected{% endif %}>Evcil Hayvan</option>
+          <option value="Kitap & Kırtasiye" {% if category == 'Kitap & Kırtasiye' %}selected{% endif %}>Kitap & Kırtasiye</option>
+          <option value="Spor & Outdoor" {% if category == 'Spor & Outdoor' %}selected{% endif %}>Spor & Outdoor</option>
+          <option value="Sağlık & Bakım" {% if category == 'Sağlık & Bakım' %}selected{% endif %}>Sağlık & Bakım</option>
+        </select>
+      </form>
+    </div>
+    
+    <div class="col-md-3 mb-3">
+      <form method="get" action="{{ url_for('filter_products') }}">
+      <label class="form-label fw-bold">Stok Durumu</label>
+      <select id="stockFilter" class="form-select" name="stock_status" onchange="this.form.submit()">
+        <option value="all" {% if stock_status == 'all' %}selected{% endif %}>Tümü</option>
+        <option value="in_stock" {% if stock_status == 'in_stock' %}selected{% endif %}>Stokta Var</option>
+        <option value="out_of_stock" {% if stock_status == 'out_of_stock' %}selected{% endif %}>Stokta Yok</option>
+      </select>
+      </form>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="container-fluid">
+        <div class="d-flex justify-content-end align-items-center mb-4">
+          <div class="action-buttons">
+            <a href="{{ url_for('products_add') }}" class="btn btn-primary">
+              <i class="fas fa-plus me-2"></i>Yeni Ürün Ekle
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="table-responsive mb-4">
+  <table class="table table-striped" id="productsTable" border="1">
+    <thead>
+      <tr>
+        <th>Barkod</th>
+        <th>Ad</th>
+        <th>Kategori</th>
+        <th>Fiyat</th>
+        <th>Marka</th>
+        <th>Kapasite</th>
+        <th>Adet</th>
+        <th>Stok Durumu</th>
+        <th>İşlemler</th>
+      </tr>
+    </thead>
+    <tbody id="productsTableBody">
+      {% for product in products %}
+      <tr>
+        <td>{{ product.barkod }}</td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.category }}</td>
+        <td>{{ product.fiyat }}</td>
+        <td>{{ product.marka }}</td>
+        <td>{{ product.kapasite }}</td>
+        <td>{{ product.adet }}</td>
+        {% if product.adet > 0 %}
+        <td><span class="badge bg-success">Stokta Var</span></td>
+        {% else %}
+        <td><span class="badge bg-danger">Stokta Yok</span></td>
+        {% endif %}
+        <td>
+          <a
+            href="{{ url_for('products_update', products=product.id) }}"
+            class="btn btn-warning"
+          >
+            <i class="fas fa-edit"></i> Güncelle
+          </a>
+          <!-- Silme Butonu -->
+          <button
+            type="button"
+            class="btn btn-danger"
+            data-bs-toggle="modal"
+            data-bs-target="#deleteModal{{ product.id }}"
+          >
+            <i class="fas fa-trash"></i> Sil
+          </button>
+        </td>
+      </tr>
+
+      <div
+        class="modal fade"
+        id="deleteModal{{ product.id }}"
+        tabindex="-1"
+        aria-labelledby="deleteModalLabel{{ product.id }}"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deleteModalLabel{{ product.id }}">
+                Ürünü Sil
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Kapat"
+              ></button>
+            </div>
+            <div class="modal-body">
+              "{{ product.name }}" adlı ürünü silmek istediğinizden emin
+              misiniz?
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                İptal
+              </button>
+              <form
+                action="{{ url_for('products_delete', products=product.id) }}"
+                method="POST"
+              >
+                <button type="submit" class="btn btn-danger">Evet, Sil</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<nav>
+    <ul class="pagination">
+        {% if pagination.has_prev %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('filter_products', page=pagination.prev_num, category=request.args.get('category', 'all'), stock_status=request.args.get('stock_status', 'all'), search_query=request.args.get('search_query', '')) }}">Önceki</a>
+        </li>
+        {% endif %}
+        {% for page in pagination.iter_pages(left_edge=2, right_edge=2, left_current=2, right_current=2) %}
+        {% if page %}
+            {% if page == pagination.page %}
+            <li class="page-item active"><span class="page-link">{{ page }}</span></li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('filter_products', page=page, category=request.args.get('category', 'all'), stock_status=request.args.get('stock_status', 'all'), search_query=request.args.get('search_query', '')) }}">{{ page }}</a>
+            </li>
+            {% endif %}
+        {% else %}
+            <li class="page-item disabled"><span class="page-link">…</span></li>
+        {% endif %}
+        {% endfor %}
+        
+        {% if pagination.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('filter_products', page=pagination.next_num, category=request.args.get('category', 'all'), stock_status=request.args.get('stock_status', 'all'), search_query=request.args.get('search_query', '')) }}">Sonraki</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+
+
+{% endblock %}
